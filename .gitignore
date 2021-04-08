@@ -1,3 +1,6 @@
+src/models/voice_recognition/**
+!src/models/voice_recognition/README.MD
+
 .idea/
 
 # Byte-compiled / optimized / DLL files
