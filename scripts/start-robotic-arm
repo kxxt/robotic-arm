@@ -1,0 +1,3 @@
+#!/bin/sh
+cd /opt/robotic-arm/
+python3 -m robotic_arm

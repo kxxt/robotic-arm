@@ -1,0 +1,12 @@
+[Unit]
+Description=Robotic Arm Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/start-robotic-arm
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
