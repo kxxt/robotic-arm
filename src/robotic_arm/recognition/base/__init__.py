@@ -1,0 +1,2 @@
+from robotic_arm.recognition.base.base import RecognitionServiceBase
+from robotic_arm.recognition.base.image import ImageRecognitionService

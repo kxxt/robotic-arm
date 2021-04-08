@@ -1,0 +1,3 @@
+from robotic_arm.recognition.face import FaceRecognitionService
+from robotic_arm.recognition.hands import HandsRecognitionService
+from robotic_arm.recognition.voice import VoiceRecognitionService
