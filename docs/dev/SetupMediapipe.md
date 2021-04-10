@@ -1,0 +1,1 @@
+# Setup Mediapipe on Raspberry PI 4 model B
