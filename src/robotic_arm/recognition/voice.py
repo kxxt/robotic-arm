@@ -76,7 +76,9 @@ class VoiceRecognitionService(RecognitionServiceBase):
             if self.recognizer.AcceptWaveform(data):
                 result = self.process_full(self.recognizer.Result())
             else:
-                result = self.process_partial(self.recognizer.PartialResult())
+                return
+                # Do not process partial results to avoid multiple executions on same input.
+                # result = self.process_partial(self.recognizer.PartialResult())
             # self.logger.info(result)
             self.process_text(result)
 
