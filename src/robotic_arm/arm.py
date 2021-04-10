@@ -45,11 +45,16 @@ class RoboticArm(Machine):
         utter("我十分同意你的观点!")
         return False
 
+    def hash_7951174358884070940_handler(self) -> bool:
+        utter("很多人都以为我疯啦!")
+        return False
+
     # routes
     voice_command_handlers = {
         "Hello": voice_command_hello_handler,
         "Exit": voice_command_exit_handler,
-        "-812530379159490365": hash_negative_812530379159490365_handler
+        "-812530379159490365": hash_negative_812530379159490365_handler,
+        "7951174358884070940": hash_7951174358884070940_handler
     }
 
     def execute_voice_command(self, cmd: str) -> bool:
