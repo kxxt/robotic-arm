@@ -1,3 +1,6 @@
+from robotic_arm.output.voice import load
+load()
+
 from robotic_arm import RoboticArm
 import logging
 from robotic_arm.recognition import *
