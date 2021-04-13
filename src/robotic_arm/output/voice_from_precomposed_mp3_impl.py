@@ -1,15 +1,16 @@
 import os
 from os import path
-import hashlib
 import json
 import logging
 from playsound import playsound
+from robotic_arm.config import VOICE_JSON_PATH
 
 logger = logging.getLogger("mp3-composition")
 sv_dict = dict()
 
 
 def md5(text: str) -> str:
+    import hashlib
     h = hashlib.md5(text.encode())
     return h.hexdigest()
 
@@ -47,7 +48,7 @@ def build_sound_files():
 
 def load():
     global sv_dict
-    with open("audio.json", encoding='utf-8') as f:
+    with open(VOICE_JSON_PATH, encoding='utf-8') as f:
         dic = json.load(f)
     sv_dict = {key: path.join('assets', dic[key])+'.wav' for key in dic}
 
