@@ -1,7 +1,7 @@
 src/models/voice_recognition/**
 !src/models/voice_recognition/README.MD
-src/robotic_arm/assets/
-src/robotic_arm/audio.json
+src/assets/
+src/audio.json
 .idea/
 
 # Byte-compiled / optimized / DLL files
