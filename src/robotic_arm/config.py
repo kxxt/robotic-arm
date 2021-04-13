@@ -10,7 +10,7 @@ SERVO_PINS = []
 LIGHT_PIN = environ.get('LIGHT_PIN') or 14
 
 VOICE_RECOGNITION_MODEL_PATH = environ.get('VOICE_RECOGNITION_MODEL_PATH') \
-                               or path.join('..', "models", "voice_recognition")
+                               or path.join("models", "voice_recognition")
 
 VOICE_DEVICE = environ.get('VOICE_DEVICE')
 
@@ -27,3 +27,5 @@ CAMERA_ID = environ.get('CAMERA_ID') or 0
 
 # available solutions are mp3-files, pyttsx3
 VOICE_COMPOSE_SOLUTION = environ.get('VOICE_COMPOSE_SOLUTION') or "mp3-files"
+
+VOICE_JSON_PATH = environ.get('VOICE_JSON_PATH') or "audio.json"
