@@ -1,15 +1,13 @@
 src/models/voice_recognition/**
 !src/models/voice_recognition/README.MD
-
+src/robotic_arm/assets/
+src/robotic_arm/audio.json
 .idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
-*.so
 
 # Distribution / packaging
 .Python
