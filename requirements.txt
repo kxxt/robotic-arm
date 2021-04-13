@@ -1,5 +1,10 @@
-transitions~=0.8.7
-colour~=0.1.5
-sounddevice~=0.4.1
-vosk~=0.3.21
+transitions
+colour
+sounddevice
+vosk
 pyttsx3
+opencv-python
+pyaudio
+hashlib
+playsound
+numpy
