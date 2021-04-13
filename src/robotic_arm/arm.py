@@ -2,8 +2,10 @@ from transitions import Machine
 from time import sleep
 from robotic_arm.recognition import FaceRecognitionService, VoiceRecognitionService, HandsRecognitionService
 import logging
-from robotic_arm.output.voice import utter
+from robotic_arm.output.voice import utter, utter_async
 from queue import Empty
+from robotic_arm.input.camera import get_frame, get_raw_frame
+import cv2
 
 
 class RoboticArm(Machine):
@@ -34,10 +36,12 @@ class RoboticArm(Machine):
 
     def voice_command_hello_handler(self) -> bool:
         self.logger.info("Hello! From handler!")
+        utter("我好得很!")
         return False
 
     def voice_command_exit_handler(self) -> bool:
         self.logger.info("Exit! From handler!")
+        utter("即将退出")
         return True
 
     def hash_negative_812530379159490365_handler(self) -> bool:
@@ -67,7 +71,13 @@ class RoboticArm(Machine):
 
     def perform_welcoming(self):
         print("Welcoming!")
-        sleep(5)
+        utter("你好呀? 你好吗?")
+        sleep(0.1)
+        utter("是不是同时听到了两条消息")
+        while True:
+            utter("同步语音消息输出测试")
+            utter("异步语音消息输出测试")
+        print("End Welcoming")
 
     def perform_goodbye(self):
         print("Welcoming!")
@@ -79,7 +89,7 @@ class RoboticArm(Machine):
         self.voice_service.start_working()
         while True:
             try:
-                cmd = self.voice_service.output_queue.get(block=True, timeout=5)
+                cmd = self.voice_service.output_queue.get(block=True, timeout=10)
                 if self.execute_voice_command(cmd):
                     break
             except Empty:
@@ -89,6 +99,10 @@ class RoboticArm(Machine):
 
     def on_enter_face_detecting(self):
         print("face detecting")
+        while True:
+            cv2.imshow("Video", get_raw_frame())
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
         sleep(5)
 
     def on_enter_hand_tracking(self):
