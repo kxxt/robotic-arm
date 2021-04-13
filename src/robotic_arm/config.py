@@ -22,3 +22,8 @@ VOICE_CHANNELS = environ.get('VOICE_CHANNELS') or 1
 VOICE_BLOCKSIZE = environ.get('VOICE_BLOCKSIZE') or 8000
 
 LOGGING_LEVEL = logging.DEBUG
+
+CAMERA_ID = environ.get('CAMERA_ID') or 0
+
+# available solutions are mp3-files, pyttsx3
+VOICE_COMPOSE_SOLUTION = environ.get('VOICE_COMPOSE_SOLUTION') or "mp3-files"
