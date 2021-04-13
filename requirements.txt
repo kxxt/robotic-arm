@@ -5,6 +5,6 @@ vosk
 pyttsx3
 opencv-python
 pyaudio
-hashlib
 playsound
 numpy
+face_recognition
