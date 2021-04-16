@@ -1,6 +1,7 @@
 import cv2
 from datetime import datetime
 import mediapipe as mp
+
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
@@ -35,41 +36,41 @@ mp_hands = mp.solutions.hands
         '/tmp/annotated_image' + str(idx) + '.png', cv2.flip(annotated_image, 1))
 """
 # For webcam input:
-frames=0
+frames = 0
 cap = cv2.VideoCapture(0)
 with mp_hands.Hands(
-    min_detection_confidence=0.5,
-    min_tracking_confidence=0.5) as hands:
-  process = 0
-  st=datetime.now()
-  while cap.isOpened():
-    process +=1
-    
-    success, image = cap.read()
-    if not success or process%3!=1:
-      # print("Ignoring empty camera frame.")
-      # If loading a video, use 'break' instead of 'continue'.
-      continue
-    # Flip the image horizontally for a later selfie-view display, and convert
-    # the BGR image to RGB.
-    image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
-    # To improve performance, optionally mark the image as not writeable to
-    # pass by reference.
-    image.flags.writeable = False
-    small_image = cv2.resize(image,(0,0),fx=0.2,fy=0.2)
-    results = hands.process(small_image)
+        min_detection_confidence=0.5,
+        min_tracking_confidence=0.5) as hands:
+    process = 0
+    st = datetime.now()
+    while cap.isOpened():
+        process += 1
 
-    # Draw the hand annotations on the image.
-    image.flags.writeable = True
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-    
-    if results.multi_hand_landmarks:
-      for hand_landmarks in results.multi_hand_landmarks:
-        mp_drawing.draw_landmarks(
-            image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
-    print(frames/(datetime.now()-st))
-    cv2.imshow('MediaPipe Hands', image)
-    frames+=1
-    if cv2.waitKey(5) & 0xFF == 27:
-      break
+        success, image = cap.read()
+        if not success or process % 3 != 1:
+            # print("Ignoring empty camera frame.")
+            # If loading a video, use 'break' instead of 'continue'.
+            continue
+        # Flip the image horizontally for a later selfie-view display, and convert
+        # the BGR image to RGB.
+        image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+        # To improve performance, optionally mark the image as not writeable to
+        # pass by reference.
+        image.flags.writeable = False
+        small_image = cv2.resize(image, (0, 0), fx=0.2, fy=0.2)
+        results = hands.process(small_image)
+
+        # Draw the hand annotations on the image.
+        image.flags.writeable = True
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
+        if results.multi_hand_landmarks:
+            for hand_landmarks in results.multi_hand_landmarks:
+                mp_drawing.draw_landmarks(
+                    image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+        cv2.imshow('MediaPipe Hands', image)
+        frames += 1
+        print(frames / (datetime.now() - st).seconds)
+        if cv2.waitKey(5) & 0xFF == 27:
+            break
 cap.release()
