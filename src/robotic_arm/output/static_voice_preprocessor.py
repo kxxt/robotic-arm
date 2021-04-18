@@ -1,11 +1,12 @@
-import os
+import logging
 from os import path
 import json
-import logging
-from playsound import playsound
-from robotic_arm.config import VOICE_JSON_PATH
+import shutil
+import os
 
-logger = logging.getLogger("mp3-composition")
+from robotic_arm.config import VOICE_JSON_PATH, USE_PROCESSED_VOICE_FILE
+
+logger = logging.getLogger("voice-preprocessor")
 sv_dict = dict()
 
 
@@ -48,15 +49,16 @@ def build_sound_files():
 
 def load():
     global sv_dict
+    logger.info("Loading Voice Composition JSON Data File...")
     with open(VOICE_JSON_PATH, encoding='utf-8') as f:
         dic = json.load(f)
-    sv_dict = {key: path.join('assets', dic[key])+'.wav' for key in dic}
+    sv_dict = {key: path.join('assets', dic[key]) + ('.wav' if USE_PROCESSED_VOICE_FILE else '') for key in dic}
+    logger.debug(sv_dict)
 
 
-def utter(text: str):
-    logger.debug(f"Playing sound {sv_dict[text]}")
-    playsound(sv_dict[text], block=True)
+def get(text: str) -> str:
+    return sv_dict[text]
 
 
-def utter_async(text: str):
-    playsound(sv_dict[text], block=False)
+def get_dict():
+    return sv_dict
