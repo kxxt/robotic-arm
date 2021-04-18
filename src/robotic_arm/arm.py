@@ -73,10 +73,10 @@ class RoboticArm(Machine):
         print("Welcoming!")
         utter("你好呀? 你好吗?")
         sleep(0.1)
-        utter("是不是同时听到了两条消息")
-        while True:
+        utter_async("是不是同时听到了两条消息")
+        for i in range(2):
             utter("同步语音消息输出测试")
-            utter("异步语音消息输出测试")
+            utter_async("异步语音消息输出测试")
         print("End Welcoming")
 
     def perform_goodbye(self):
