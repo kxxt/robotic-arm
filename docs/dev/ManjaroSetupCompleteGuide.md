@@ -45,6 +45,12 @@ sudo pacman -S python-pip yay base-devel net-tools cmake
 yay -S pigpio # GPIO 包
 ```
 
+### 中文输入法(Optional)
+
+```bash
+sudo pacman -S fcitx-googlepinyin fcitx-configtool
+```
+
 ### 代理软件安装(Optional)
 
 ```bash
@@ -73,8 +79,15 @@ sudo pip3 install prebuilt/aarch64/vosk/*.whl
 sudo pip3 install prebuilt/aarch64/dlib/*.whl
 sudo pacman -U prebuilt/aarch64/tflite2.4/*.zst
 sudo pip3 install -r requirements.txt
+# uncomment mediapipe.python.solutions.drawing_utils
+sudo nano /usr/lib/python3.9/site-packages/mediapipe/python/solutions/__init__.py
+将下面一行改为
+# import mediapipe.python.solutions.drawing_utils
+import mediapipe.python.solutions.drawing_utils
 ```
-
+```bash
+sudo pacman -S gst-python
+```
 #### 二进制库(TFLite)
 
 ```bash
