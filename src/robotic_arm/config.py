@@ -25,7 +25,8 @@ LOGGING_LEVEL = logging.DEBUG
 
 CAMERA_ID = environ.get('CAMERA_ID') or 0
 
-# available solutions are mp3-files, pyttsx3
-VOICE_COMPOSE_SOLUTION = environ.get('VOICE_COMPOSE_SOLUTION') or "mp3-files"
+# available solutions are pydub, playsound, pyttsx3
+VOICE_COMPOSE_SOLUTION = environ.get('VOICE_COMPOSE_SOLUTION') or "pydub"
 
 VOICE_JSON_PATH = environ.get('VOICE_JSON_PATH') or "audio.json"
+USE_PROCESSED_VOICE_FILE = environ.get('USE_PROCESSED_VOICE_FILE') or False
