@@ -9,7 +9,10 @@ def get_raw_frame():
     Get raw camera frame (RGB)
     :return: Raw frame from camera (RGB)
     """
-    return video_capture.read()[:, :, ::-1]  # convert to RGB from BGR
+    success, image = video_capture.read()
+    if not success:
+        return None
+    return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # convert to RGB from BGR
 
 
 def get_frame(fx=0.25, fy=0.25):
@@ -19,4 +22,7 @@ def get_frame(fx=0.25, fy=0.25):
     :param fy: y resize factor
     :return: resized frame
     """
-    return cv2.resize(video_capture.read(), (0, 0), fx, fy)[:, :, ::-1]
+    success, image = video_capture.read()
+    if not success:
+        return None
+    return cv2.cvtColor(cv2.resize(image, (0, 0), fx, fy), cv2.COLOR_BGR2RGB)
