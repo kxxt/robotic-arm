@@ -70,7 +70,9 @@ unzip v2ray-*.zip -d v2ray/
 ```
 
 ### 项目密切相关依赖
-
+```bash
+sudo pacman -S gst-python openblas lapack
+```
 #### Python 包
 
 ```bash
@@ -85,9 +87,7 @@ sudo nano /usr/lib/python3.9/site-packages/mediapipe/python/solutions/__init__.p
 # import mediapipe.python.solutions.drawing_utils
 import mediapipe.python.solutions.drawing_utils
 ```
-```bash
-sudo pacman -S gst-python
-```
+
 #### 二进制库(TFLite)
 
 ```bash
