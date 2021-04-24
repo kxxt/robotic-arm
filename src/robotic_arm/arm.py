@@ -1,11 +1,13 @@
-from transitions import Machine
-from time import sleep
-from robotic_arm.recognition import FaceRecognitionService, VoiceRecognitionService, HandsRecognitionService
 import logging
-from robotic_arm.output.voice import utter, utter_async
 from queue import Empty
-from robotic_arm.input.camera import get_frame, get_raw_frame
+from time import sleep
+
 import cv2
+from transitions import Machine
+
+from robotic_arm.input.camera import get_raw_frame
+from robotic_arm.output.voice import utter, utter_async
+from robotic_arm.recognition import FaceRecognitionService, VoiceRecognitionService, HandsRecognitionService
 
 
 class RoboticArm(Machine):
@@ -36,7 +38,7 @@ class RoboticArm(Machine):
 
     def voice_command_hello_handler(self) -> bool:
         self.logger.info("Hello! From handler!")
-        utter("我好得很!")
+        utter_async("我好得很!")
         return False
 
     def voice_command_exit_handler(self) -> bool:
@@ -74,7 +76,7 @@ class RoboticArm(Machine):
         utter("你好呀? 你好吗?")
         sleep(0.1)
         utter_async("是不是同时听到了两条消息")
-        for i in range(2):
+        for i in range(1):
             utter("同步语音消息输出测试")
             utter_async("异步语音消息输出测试")
         print("End Welcoming")
@@ -99,15 +101,48 @@ class RoboticArm(Machine):
 
     def on_enter_face_detecting(self):
         print("face detecting")
-        while True:
-            cv2.imshow("Video", get_raw_frame())
+        self.face_service.wait_for_ready()
+        self.face_service.start_working()
+        for i in range(100):
+            frame = get_raw_frame()
+            if frame is not None:
+                pass  # cv2.imshow("Video", frame)
+            try:
+                self.logger.debug(self.face_service.output_queue.get_nowait())
+            except Empty:
+                pass
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-        sleep(5)
+        self.face_service.stop_working()
 
     def on_enter_hand_tracking(self):
+        import mediapipe as mp
+        mp_drawing = mp.solutions.drawing_utils
+        mp_hands = mp.solutions.hands
         print("Hand Tracking!")
-        sleep(5)
+        self.hands_service.wait_for_ready()
+        self.hands_service.start_working()
+        while True:
+            frame = get_raw_frame()
+            if frame is None:
+                continue
+            try:
+                # marks = None
+                # while not self.hands_service.output_queue.empty():
+                #    marks = self.hands_service.output_queue.get_nowait()
+                marks = self.hands_service.output_queue.get_nowait()
+                if not marks:
+                    self.logger.info("Encountered empty marks!")
+                    continue
+                for mark in marks:
+                    mp_drawing.draw_landmarks(
+                        frame, mark, mp_hands.HAND_CONNECTIONS)
+                cv2.imshow("Hands", frame)
+            except Empty:
+                pass
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        self.hands_service.stop_working()
 
     def acquire_user_to_speak(self):
         utter("你他妈的说话啊!")
