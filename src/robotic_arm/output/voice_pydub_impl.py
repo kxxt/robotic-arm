@@ -32,5 +32,4 @@ def load():
     # logger.debug(sv_dict)
     logger.info("Loading voice composition cache into memory...")
     voice_cache = {key: AudioSegment.from_wav(get(key)) for key in get_dict()}
-    logger.debug(voice_cache)
     thread.start()

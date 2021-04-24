@@ -53,7 +53,7 @@ def load():
     with open(VOICE_JSON_PATH, encoding='utf-8') as f:
         dic = json.load(f)
     sv_dict = {key: path.join('assets', dic[key]) + ('.wav' if USE_PROCESSED_VOICE_FILE else '') for key in dic}
-    logger.debug(sv_dict)
+    # logger.debug(sv_dict)
 
 
 def get(text: str) -> str:
