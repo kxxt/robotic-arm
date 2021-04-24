@@ -23,9 +23,9 @@ class RecognitionServiceBase:
     def wait_for_ready(self):
         if not self.loaded.isSet():
             self.logger.warning("Service is not ready when required! Probably performance issues.")
-            utter("程序正在加载中,请稍后")
+            utter_async("程序正在加载中,请稍后")
             self.loaded.wait()
-            utter("程序加载完成, 很抱歉让您久等啦")
+            utter("程序加载完成,很抱歉让您久等啦")
 
     def real_work(self):
         pass
