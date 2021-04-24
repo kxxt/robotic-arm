@@ -1,16 +1,16 @@
 import threading
 from queue import Queue
 import logging
-from robotic_arm.output.voice import utter
+from robotic_arm.output.voice import utter, utter_async
 
 
 class RecognitionServiceBase:
-    def __init__(self, name='recognition'):
+    def __init__(self, name='recognition', output_queue_size=0):
         self.thread = threading.Thread(target=self.work, name=name)
         self.thread.setDaemon(True)
         self.loaded = threading.Event()
         self.input_queue = Queue()
-        self.output_queue = Queue()
+        self.output_queue = Queue(maxsize=output_queue_size)
         self.working = threading.Event()
         self.logger = logging.getLogger(__name__)
 
@@ -48,4 +48,3 @@ class RecognitionServiceBase:
     def stop_working(self):
         self.working.clear()
         self.logger.info("Now stopped working!")
-
