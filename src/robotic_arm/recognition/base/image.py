@@ -13,3 +13,6 @@ class ImageRecognitionService(RecognitionServiceBase):
 
     def recognize(self, img):
         pass
+
+    def recognize_sync(self):
+        pass
