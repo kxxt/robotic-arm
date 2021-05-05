@@ -51,3 +51,8 @@ class FaceRecognitionService(ImageRecognitionService):
         result = self.recognize(get_raw_frame())
         if result is not None and result.detections is not None:
             self.output_queue.put(result.detections)
+
+    def recognize_sync(self):
+        result = self.recognize(get_raw_frame())
+        if result is not None and result.detections is not None:
+            return result.detections

@@ -41,8 +41,11 @@ class FaceRecognitionService(ImageRecognitionService):
                     name = self.known_face_names[best_match_index]
 
                 face_names.append(name)
-            self.output_queue.put((face_names, face_locations, face_encodings))
+            self.process_this_frame = not self.process_this_frame
+            return face_names, face_locations, face_encodings
         self.process_this_frame = not self.process_this_frame
 
     def real_work(self):
-        self.output_queue.put(self.recognize(get_frame()))
+        result = self.recognize(get_frame())
+        if result is not None:
+            self.output_queue.put(result)
