@@ -47,6 +47,10 @@ VOICE_SAMPLE_RATE = environ.get('VOICE_SAMPLE_RATE') \
 VOICE_CHANNELS = environ.get('VOICE_CHANNELS') or 1
 VOICE_BLOCKSIZE = environ.get('VOICE_BLOCKSIZE') or 8000
 
+# Judgement configurations
+CAMERA_CENTER_JUDGEMENT_OFFSET = environ.get('CAMERA_CENTER_JUDGEMENT_OFFSET') or 0.09
+CAMERA_CENTER_AREA_JUDGEMENT_RATIO = environ.get('CAMERA_CENTER_AREA_JUDGEMENT_RATIO') or 0.3
+
 # Lazy configurations
 __load_real_services = environ.get('LOAD_REAL_SERVICES')
 LOAD_REAL_SERVICES = True if __load_real_services is None else __load_real_services.lower() != "false"
