@@ -1,5 +1,5 @@
-from robotic_arm.output.voice import load
-load()
+from robotic_arm.output import load_voice_composition_service
+load_voice_composition_service()
 
 from robotic_arm import RoboticArm
 import logging
