@@ -6,8 +6,9 @@ import cv2
 from transitions import Machine
 
 from robotic_arm.input.camera import get_raw_frame
-from robotic_arm.output.voice import utter, utter_async
+from robotic_arm.output import utter, utter_async
 from robotic_arm.recognition import FaceRecognitionService, VoiceRecognitionService, HandsRecognitionService
+from robotic_arm.utils import get_center_point, is_point_at_camera_center
 
 
 class RoboticArm(Machine):
@@ -118,13 +119,12 @@ class RoboticArm(Machine):
             if result is None:
                 act_on_no_body(locked)
                 continue
-            result = [r for r in result if r.score[0] > 0.6]
-            # image = None
-            # while image is None:
-            #     image = get_raw_frame()
-            # for detection in result:
-            #     drawing.draw_detection(image, detection)
-            # cv2.imshow("Face", image)
+            image = None
+            while image is None:
+                image = get_raw_frame()
+            for detection in result:
+                drawing.draw_detection(image, detection)
+            cv2.imshow("Face", image)
             le = len(result)
             if le == 0:
                 act_on_no_body(locked)
@@ -132,12 +132,9 @@ class RoboticArm(Machine):
                 if not locked:
                     utter_async("就你一个人?做好被枪毙的准备了吗?")
                     locked = True
-                posx = result[0].location_data.relative_bounding_box.xmin + result[
-                    0].location_data.relative_bounding_box.width / 2
-                posy = result[0].location_data.relative_bounding_box.ymin + result[
-                    0].location_data.relative_bounding_box.height / 2
+                posx, posy = get_center_point(result[0].location_data)
                 self.logger.debug(f"x:{posx},y:{posy}")
-                if 0.40 <= posx <= 0.60 and 0.40 <= posy <= 0.60:
+                if is_point_at_camera_center(posx, posy):
                     utter("你已经被枪毙了!")
                     self.logger.debug("You died!")
                     break
