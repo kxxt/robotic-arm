@@ -100,17 +100,51 @@ class RoboticArm(Machine):
         self.voice_service.stop_working()
 
     def on_enter_face_detecting(self):
+        import mediapipe as mp
+        drawing = mp.solutions.drawing_utils
         print("face detecting")
         self.face_service.wait_for_ready()
         self.face_service.start_working()
-        for i in range(100):
-            frame = get_raw_frame()
-            if frame is not None:
-                pass  # cv2.imshow("Video", frame)
-            try:
-                self.logger.debug(self.face_service.output_queue.get_nowait())
-            except Empty:
-                pass
+        locked = False
+
+        def act_on_no_body(found):
+            if found:
+                utter_async("你去哪了,我正在找你呢?")
+            else:
+                utter_async("人都死光了吗?来个人让我瞧瞧")
+
+        for i in range(1000):
+            result = self.face_service.recognize_sync()
+            if result is None:
+                act_on_no_body(locked)
+                continue
+            result = [r for r in result if r.score[0] > 0.6]
+            # image = None
+            # while image is None:
+            #     image = get_raw_frame()
+            # for detection in result:
+            #     drawing.draw_detection(image, detection)
+            # cv2.imshow("Face", image)
+            le = len(result)
+            if le == 0:
+                act_on_no_body(locked)
+            elif le == 1:
+                if not locked:
+                    utter_async("就你一个人?做好被枪毙的准备了吗?")
+                    locked = True
+                posx = result[0].location_data.relative_bounding_box.xmin + result[
+                    0].location_data.relative_bounding_box.width / 2
+                posy = result[0].location_data.relative_bounding_box.ymin + result[
+                    0].location_data.relative_bounding_box.height / 2
+                self.logger.debug(f"x:{posx},y:{posy}")
+                if 0.40 <= posx <= 0.60 and 0.40 <= posy <= 0.60:
+                    utter("你已经被枪毙了!")
+                    self.logger.debug("You died!")
+                    break
+                else:
+                    utter_async("请把头对准枪口")
+            else:
+                utter_async("好多人呀!我要随便挑一个枪毙!")
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         self.face_service.stop_working()
