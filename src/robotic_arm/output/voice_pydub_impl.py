@@ -3,11 +3,11 @@ from pydub import AudioSegment
 from pydub.playback import play
 from robotic_arm.output.static_voice_preprocessor import get, get_dict, load as preload
 import threading
-from queue import Queue
+from queue import Queue, Empty, Full
 
 logger = logging.getLogger("pydub")
 voice_cache = dict()
-q = Queue()
+q = Queue(maxsize=4)
 
 
 def utter(text: str):
@@ -15,7 +15,12 @@ def utter(text: str):
 
 
 def utter_async(text: str):
-    q.put(text)
+    while True:
+        try:
+            q.put_nowait(text)
+            break
+        except Full:
+            q.get()
 
 
 def work():
