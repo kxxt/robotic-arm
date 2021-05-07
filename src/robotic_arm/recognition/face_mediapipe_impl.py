@@ -56,3 +56,4 @@ class FaceRecognitionService(ImageRecognitionService):
         result = self.recognize(get_raw_frame())
         if result is not None and result.detections is not None:
             return result.detections
+        return None
