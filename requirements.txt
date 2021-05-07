@@ -7,5 +7,4 @@ opencv-python
 pyaudio
 playsound
 numpy
-face_recognition
 pydub
