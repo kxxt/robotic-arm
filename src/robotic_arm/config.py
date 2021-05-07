@@ -25,6 +25,7 @@ CAMERA_ID = environ.get('CAMERA_ID') or 0
 VOICE_COMPOSE_SOLUTION = environ.get('VOICE_COMPOSE_SOLUTION') or "pydub"
 VOICE_JSON_PATH = environ.get('VOICE_JSON_PATH') or "audio.json"
 USE_PROCESSED_VOICE_FILE = environ.get('USE_PROCESSED_VOICE_FILE') or False
+ASYNC_VOICE_COMPOSITION_MAX_QUEUE_SIZE = environ.get('ASYNC_VOICE_COMPOSITION_MAX_QUEUE_SIZE') or 3
 
 # face recognition configurations
 
