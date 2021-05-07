@@ -4,10 +4,11 @@ from pydub.playback import play
 from robotic_arm.output.static_voice_preprocessor import get, get_dict, load as preload
 import threading
 from queue import Queue, Empty, Full
+from robotic_arm.config import ASYNC_VOICE_COMPOSITION_MAX_QUEUE_SIZE
 
 logger = logging.getLogger("pydub")
 voice_cache = dict()
-q = Queue(maxsize=4)
+q = Queue(maxsize=ASYNC_VOICE_COMPOSITION_MAX_QUEUE_SIZE)
 
 
 def utter(text: str):
