@@ -10,6 +10,10 @@ def init_logger():
     # BEGIN Disable some logs from 3-rd party libraries
     com_logger = logging.getLogger("comtypes")
     com_logger.setLevel(logging.WARNING)
+    websockets_logger = logging.getLogger("websockets")
+    websockets_logger.setLevel(logging.WARNING)
+    matplotlib_logger = logging.getLogger("matplotlib")
+    matplotlib_logger.setLevel(logging.WARNING)
     # END Disable some logs from 3-rd party libraries
 
     file_handler = logging.FileHandler("robotic-arm.log")
