@@ -22,7 +22,7 @@ class HandsRecognitionService(ImageRecognitionService):
 
     def recognize(self, frame):
         self.process += 1
-        if frame is None and self.process % 3 == 1:
+        if frame is None or self.process % 3 == 1:
             return
         # To improve performance, optionally mark the image as not writeable to
         # pass by reference.
