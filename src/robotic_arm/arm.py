@@ -9,6 +9,7 @@ from robotic_arm.input.camera import get_raw_frame
 from robotic_arm.output import utter, utter_async
 from robotic_arm.recognition import FaceRecognitionService, VoiceRecognitionService, HandsRecognitionService
 from robotic_arm.utils import get_center_point, is_point_at_camera_center
+from robotic_arm.motion.base import MotionBase
 
 
 class RoboticArm(Machine):
@@ -17,7 +18,8 @@ class RoboticArm(Machine):
     def __init__(self,
                  face_service: FaceRecognitionService,
                  voice_service: VoiceRecognitionService,
-                 hands_service: HandsRecognitionService):
+                 hands_service: HandsRecognitionService,
+                 motion_impl: MotionBase):
         Machine.__init__(
             self,
             states=RoboticArm.states,
@@ -30,6 +32,8 @@ class RoboticArm(Machine):
         self.face_service = face_service
         self.voice_service = voice_service
         self.hands_service = hands_service
+
+        self.motion = motion_impl
 
         self.logger = logging.getLogger(__name__)
 
@@ -87,6 +91,7 @@ class RoboticArm(Machine):
         sleep(5)
 
     def on_enter_voice_detecting(self):
+        import random
         print("Voice detecting!")
         self.voice_service.wait_for_ready()
         self.voice_service.start_working()
@@ -97,6 +102,9 @@ class RoboticArm(Machine):
                     break
             except Empty:
                 self.acquire_user_to_speak()
+                self.motion.set(0, random.random())
+                self.motion.set(1, random.random())
+                self.motion.set(2, random.random())
 
         self.voice_service.stop_working()
 
@@ -105,7 +113,7 @@ class RoboticArm(Machine):
         drawing = mp.solutions.drawing_utils
         print("face detecting")
         self.face_service.wait_for_ready()
-        self.face_service.start_working()
+        # self.face_service.start_working()
         locked = False
 
         def act_on_no_body(found):
@@ -114,7 +122,7 @@ class RoboticArm(Machine):
             else:
                 utter_async("人都死光了吗?来个人让我瞧瞧")
 
-        for i in range(1000):
+        while True:
             result = self.face_service.recognize_sync()
             if result is None:
                 act_on_no_body(locked)
@@ -144,7 +152,7 @@ class RoboticArm(Machine):
                 utter_async("好多人呀!我要随便挑一个枪毙!")
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-        self.face_service.stop_working()
+        # self.face_service.stop_working()
 
     def on_enter_hand_tracking(self):
         import mediapipe as mp
@@ -152,7 +160,7 @@ class RoboticArm(Machine):
         mp_hands = mp.solutions.hands
         print("Hand Tracking!")
         self.hands_service.wait_for_ready()
-        self.hands_service.start_working()
+        # self.hands_service.start_working()
         while True:
             frame = get_raw_frame()
             if frame is None:
@@ -173,7 +181,7 @@ class RoboticArm(Machine):
                 pass
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-        self.hands_service.stop_working()
+        # self.hands_service.stop_working()
 
     def acquire_user_to_speak(self):
         utter("你他妈的说话啊!")
