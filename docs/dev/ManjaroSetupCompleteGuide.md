@@ -11,6 +11,9 @@
 gpu_mem=128
 # 启用摄像头
 start_x=1
+# Enables I2C
+dtparam=i2c1=on
+dtparam=spi=on
 ```
 
 弹出SD卡, 插入树莓派上电开机(HDMI外接屏幕)
@@ -71,7 +74,8 @@ unzip v2ray-*.zip -d v2ray/
 
 ### 项目密切相关依赖
 ```bash
-sudo pacman -S gst-python openblas lapack
+sudo pacman -S gst-python openblas lapack i2c-tools
+yay --aur python-raspberry-gpio 
 ```
 #### Python 包
 
