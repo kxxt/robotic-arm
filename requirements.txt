@@ -8,3 +8,4 @@ pyaudio
 playsound
 numpy
 pydub
+luma.oled
