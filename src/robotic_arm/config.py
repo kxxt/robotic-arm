@@ -55,6 +55,14 @@ CAMERA_CENTER_AREA_JUDGEMENT_RATIO = environ.get('CAMERA_CENTER_AREA_JUDGEMENT_R
 # Servo configurations
 SERVO_IMPLEMENTATION = environ.get('SERVO_IMPLEMENTATION') or 'simulated'
 
+# OLED display configurations
+OLED_DISPLAY_IMPLEMENTATION = environ.get('OLED_DISPLAY_IMPLEMENTATION') or 'simulated'
+OLED_DISPLAY_DRIVER = environ.get('OLED_DISPLAY_DRIVER') or 'ssd1309'
+OLED_DISPLAY_INTERFACE = environ.get('OLED_DISPLAY_INTERFACE') or 'spi'
+OLED_DISPLAY_WIDTH = environ.get("OLED_DISPLAY_WIDTH") or 128
+OLED_DISPLAY_HEIGHT = environ.get('OLED_DISPLAY_HEIGHT') or 64
+
+
 # Lazy configurations
 __load_real_services = environ.get('LOAD_REAL_SERVICES')
 LOAD_REAL_SERVICES = True if __load_real_services is None else __load_real_services.lower() != "false"
