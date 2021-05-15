@@ -1,8 +1,9 @@
 import logging
 import os
-
+from robotic_arm.output import load_display_service
 from robotic_arm.output import load_voice_composition_service
 
+disp = load_display_service()
 load_voice_composition_service()
 
 from robotic_arm import RoboticArm
@@ -29,5 +30,5 @@ face_service.run()
 hands_service.run()
 voice_service.run()
 
-arm = RoboticArm(face_service, voice_service, hands_service, motion)
+arm = RoboticArm(face_service, voice_service, hands_service, motion, disp)
 arm.run()
