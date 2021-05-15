@@ -6,10 +6,6 @@ engine = pyttsx3.init()
 
 
 def run(input_queue: Queue):
-    while True:
-        try:
-            text = input_queue.get_nowait()
-            engine.say(text)
-            engine.runAndWait()
-        except Empty:
-            pass
+    while text := input_queue.get(block=True):
+        engine.say(text)
+        engine.runAndWait()
