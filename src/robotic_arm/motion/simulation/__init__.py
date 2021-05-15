@@ -1,1 +1,2 @@
 from robotic_arm.motion.simulation.robot import SimulatedMotion
+from robotic_arm.motion.simulation.multiprocessing import MultiprocessingSimulatedMotion
