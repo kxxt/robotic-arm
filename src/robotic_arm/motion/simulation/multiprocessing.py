@@ -1,4 +1,3 @@
-from multiprocessing.connection import Connection
 from multiprocessing import Process, Queue
 
 from robotic_arm.motion.base import MotionBase
