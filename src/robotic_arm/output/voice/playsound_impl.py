@@ -1,6 +1,6 @@
 import logging
 from playsound import playsound
-from robotic_arm.output.static_voice_preprocessor import load, get
+from robotic_arm.output.voice.static_voice_preprocessor import get
 
 logger = logging.getLogger("playsound")
 

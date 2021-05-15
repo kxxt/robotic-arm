@@ -1,9 +1,8 @@
 import pyttsx3
-import threading
 # from queue import Queue, Empty
 from multiprocessing import Process, Queue
 import logging
-from robotic_arm.output import tts_subprocess
+from robotic_arm.output.voice import tts_subprocess
 
 logger = logging.getLogger(__name__)
 engine = pyttsx3.init()
