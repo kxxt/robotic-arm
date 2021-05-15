@@ -1,5 +1,10 @@
 import roboticstoolbox as rtb
-from roboticstoolbox.backends.swift import Swift
+
+try:
+    from roboticstoolbox.backends.swift import Swift
+except:
+    from roboticstoolbox.backends.Swift import Swift
+
 from robotic_arm.motion.base import MotionBase
 
 
