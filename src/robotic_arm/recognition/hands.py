@@ -11,7 +11,7 @@ mp_hands = mp.solutions.hands
 class HandsRecognitionService(ImageRecognitionService):
     def __init__(self):
         ImageRecognitionService.__init__(self, 'hands-recognition', 5)
-        self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger('hands-recognition')
         self.service = None
         self.process = 0
 

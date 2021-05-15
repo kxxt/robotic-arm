@@ -29,7 +29,7 @@ class VoiceRecognitionService(RecognitionServiceBase):
 
     def __init__(self):
         RecognitionServiceBase.__init__(self, 'voice-recognition')
-        self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger('voice-recognition')
         self.model = None
         self.recognizer = None
 

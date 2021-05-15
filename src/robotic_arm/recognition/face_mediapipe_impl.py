@@ -12,7 +12,7 @@ mp_face_detection = mp.solutions.face_detection
 class FaceRecognitionService(ImageRecognitionService):
     def __init__(self):
         ImageRecognitionService.__init__(self, 'face-recognition')
-        self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger('face-recognition-mpface')
         self.service = None
         self.process_this_frame = True
 
