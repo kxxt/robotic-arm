@@ -31,11 +31,11 @@ class Display:
         # self.draw.rectangle(((0, 2), (40, 23)), 'white', None, 2)
         self.process.start()
 
+    def println(self, msg):
+        self.queue.put(msg)
+
     def event_loop(self):
         from luma.core.render import canvas
-        font = ImageFont.truetype(r"C:\Windows\Fonts\SIMSUN.ttc", 16)
-        with canvas(self.device) as draw:
-            draw.text((0, 0), "Hello World！", fill="white", font=font)
         if self.mode == DisplayMode.CANVAS:
             while msg := self.queue.get(block=True):
                 with canvas(self.device) as draw:
@@ -44,38 +44,7 @@ class Display:
             from luma.core.virtual import terminal
             font = ImageFont.truetype(path.join("res", "zpix.ttf"), 12, encoding='unic')
             term = terminal(self.device, font)
-            import time
-            term.println("启动成功")
-            time.sleep(8)
-            term.println("数据玄学与人工智障实验班")
-            term.println("------------------")
-            term.println("奇怪的机械臂")
-            time.sleep(2)
-            term.println("？？？？？")
-            term.println()
-            time.sleep(2)
-
-            term.animate = False
-            time.sleep(2)
-            term.clear()
-
-            term.println("Progress bar")
-            term.println("------------")
-            for mill in range(0, 10001, 25):
-                term.puts("\rPercent: {0:0.1f} %".format(mill / 100.0))
-                term.flush()
-
-            time.sleep(2)
-            term.clear()
-            term.puts("Backspace test.")
-            term.flush()
-            time.sleep(2)
-            for _ in range(17):
-                term.backspace()
-                time.sleep(0.2)
-            time.sleep(2)
-            term.clear()
-            term.animate = True
+            term.println("OLED 显示服务初始化成功!")
             while msg := self.queue.get(block=True):
                 term.println(msg)
         else:
