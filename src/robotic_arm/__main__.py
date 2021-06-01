@@ -2,8 +2,10 @@ import logging
 import os
 from robotic_arm.output import load_display_service, utter_async
 from robotic_arm.output import load_voice_composition_service
+from robotic_arm.output.voice import register_voice_output_callback
 
 disp = load_display_service()
+register_voice_output_callback(lambda x: disp.println(x))
 load_voice_composition_service()
 utter_async("欢迎使用智能机械臂，我叫小明，程序还在加载，请稍等片刻")
 
