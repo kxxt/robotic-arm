@@ -21,5 +21,5 @@ class ImageRecognitionService(RecognitionServiceBase):
     def wait_for_ready(self):
         if not self.loaded.isSet():
             self.logger.warning("Service is not ready when required! Probably performance issues.")
-            utter_async("程序正在加载中,请稍后")
+            utter_async("程序正在加载中,请稍候")
             self.loaded.wait()
