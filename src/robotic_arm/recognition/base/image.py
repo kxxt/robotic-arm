@@ -1,3 +1,4 @@
+from robotic_arm.output import utter_async
 from robotic_arm.recognition.base.base import RecognitionServiceBase
 
 
@@ -16,3 +17,9 @@ class ImageRecognitionService(RecognitionServiceBase):
 
     def recognize_sync(self):
         pass
+
+    def wait_for_ready(self):
+        if not self.loaded.isSet():
+            self.logger.warning("Service is not ready when required! Probably performance issues.")
+            utter_async("程序正在加载中,请稍后")
+            self.loaded.wait()

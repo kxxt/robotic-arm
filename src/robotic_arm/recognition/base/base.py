@@ -1,7 +1,6 @@
 import threading
 from queue import Queue
 import logging
-from robotic_arm.output.voice import utter, utter_async
 
 
 class RecognitionServiceBase:
@@ -22,8 +21,6 @@ class RecognitionServiceBase:
 
     def wait_for_ready(self):
         if not self.loaded.isSet():
-            self.logger.warning("Service is not ready when required! Probably performance issues.")
-            utter_async("程序正在加载中,请稍后")
             self.loaded.wait()
 
     def real_work(self):
