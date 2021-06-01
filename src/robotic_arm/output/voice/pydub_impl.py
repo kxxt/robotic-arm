@@ -5,6 +5,8 @@ from robotic_arm.output.voice.static_voice_preprocessor import get, get_dict, lo
 import threading
 from queue import Queue, Full
 from robotic_arm.config import ASYNC_VOICE_COMPOSITION_MAX_QUEUE_SIZE
+from robotic_arm.output.voice.voice_base import voice_output_callback
+
 
 logger = logging.getLogger("pydub")
 voice_cache = dict()
@@ -12,6 +14,7 @@ q = Queue(maxsize=ASYNC_VOICE_COMPOSITION_MAX_QUEUE_SIZE)
 
 
 def utter(text: str):
+    voice_output_callback(text)
     play(voice_cache[text])
 
 
