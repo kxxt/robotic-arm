@@ -1,10 +1,11 @@
 import logging
 import os
-from robotic_arm.output import load_display_service
+from robotic_arm.output import load_display_service, utter_async
 from robotic_arm.output import load_voice_composition_service
 
 disp = load_display_service()
 load_voice_composition_service()
+utter_async("欢迎使用智能机械臂，我叫小明，程序还在加载，请稍等片刻")
 
 from robotic_arm import RoboticArm
 from robotic_arm.recognition import *
