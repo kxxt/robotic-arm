@@ -99,10 +99,7 @@ class RoboticArm(Machine):
                     break
             except Empty:
                 self.acquire_user_to_speak()
-                self.motion.set(0, random.random())
-                self.motion.set(1, random.random())
-                self.motion.set(2, random.random())
-
+                self.motion.for_test_purpose()
         self.voice_service.stop_working()
 
     def on_enter_face_detecting(self):
