@@ -1,4 +1,5 @@
 from robotic_arm.config import VOICE_COMPOSE_SOLUTION
+from robotic_arm.output.voice.voice_base import register_voice_output_callback
 
 if VOICE_COMPOSE_SOLUTION == "playsound":
     from robotic_arm.output.voice.playsound_impl import utter, utter_async, load as load_voice_composition_service
