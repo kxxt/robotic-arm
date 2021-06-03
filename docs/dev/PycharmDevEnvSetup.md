@@ -1,14 +1,6 @@
 # PyCharm 开发环境搭建
 
-请现在树莓派上安装好程序的依赖
-
-```
-sudo apt update
-sudo apt install python3-pyqt5.qtwebkit python3-pyqt5
-sudo pip3 install EasySettings[all]
-```
-
-然后打开 PyCharm, 在 PyCharm 中打开 piculator-client-software
+然后打开 PyCharm, 在 PyCharm 中打开 项目
 
 添加interpreter
 
