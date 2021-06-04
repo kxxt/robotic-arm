@@ -33,6 +33,16 @@ class HandsRecognitionService(ImageRecognitionService):
         frame.flags.writeable = True
         return results
 
+    # Data format:
+    # multi_hand_landmarks: iter = [
+    #     hand_landmarks = {
+    #         landmark:iter = {
+    #             {
+    #                 x,y,z
+    #             },...
+    #         }
+    #     },...
+    # ]
     def real_work(self):
         result = self.recognize(get_raw_frame())
         if result is not None and result.multi_hand_landmarks is not None:
