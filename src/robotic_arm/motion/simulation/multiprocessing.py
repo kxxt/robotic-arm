@@ -23,7 +23,6 @@ def for_test_purpose(self: SimulatedMotion, x, y, z):
     import spatialmath as sm
     import roboticstoolbox as rtb
     import numpy as np
-    self.robot.q = self.robot.qr
     Tep = self.robot.fkine(self.robot.q) * sm.SE3.Tx(x) * sm.SE3.Ty(y) * sm.SE3.Tz(z)
     arrived = False
     while not arrived:
