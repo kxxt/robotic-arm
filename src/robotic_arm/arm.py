@@ -7,7 +7,7 @@ from transitions import Machine
 
 from robotic_arm.config import NAME
 from robotic_arm.input.camera import get_raw_frame
-from robotic_arm.output import utter, utter_async, utter_async_passive, clear_async_queue
+from robotic_arm.output import VoiceCompositionBase
 from robotic_arm.recognition import FaceRecognitionService, VoiceRecognitionService, HandsRecognitionService
 from robotic_arm.utils import get_center_point, is_point_at_camera_center
 from robotic_arm.motion.base import MotionBase
@@ -20,6 +20,7 @@ class RoboticArm(Machine):
                  face_service: FaceRecognitionService,
                  voice_service: VoiceRecognitionService,
                  hands_service: HandsRecognitionService,
+                 voice_composition: VoiceCompositionBase,
                  motion_impl: MotionBase,
                  display_service):
         Machine.__init__(
@@ -34,6 +35,11 @@ class RoboticArm(Machine):
         self.face_service = face_service
         self.voice_service = voice_service
         self.hands_service = hands_service
+        self.voice_composition = voice_composition
+
+        self.utter = voice_composition.utter
+        self.utter_async = voice_composition.utter_async
+        self.utter_async_passive = voice_composition.utter_async_passive
 
         self.motion = motion_impl
         self.display = display_service
@@ -46,7 +52,7 @@ class RoboticArm(Machine):
 
     def voice_command_hello_handler(self) -> bool:
         self.logger.info("Hello! From handler!")
-        utter_async("我好得很!")
+        self.utter_async("我好得很!")
         return False
 
     def voice_command_start_handler(self) -> bool:
@@ -56,16 +62,16 @@ class RoboticArm(Machine):
 
     def voice_command_exit_handler(self) -> bool:
         self.logger.info("Exit! From handler!")
-        utter("即将退出")
+        self.utter("即将退出")
         return True
 
     def hash_negative_812530379159490365_handler(self) -> bool:
         self.logger.info(f"我十分同意你的观点!")
-        utter("我十分同意你的观点!")
+        self.utter("我十分同意你的观点!")
         return False
 
     def hash_7951174358884070940_handler(self) -> bool:
-        utter("很多人都以为我疯啦!")
+        self.utter("很多人都以为我疯啦!")
         return False
 
     # routes
@@ -106,7 +112,7 @@ class RoboticArm(Machine):
                     break
             except Empty:
                 self.acquire_user_to_speak()
-                self.motion.for_test_purpose(0.1, 0.2, 0.3)
+                # self.motion.for_test_purpose(0.1, 0.2, 0.3)
         self.voice_service.stop_working()
 
     def on_enter_face_detecting(self):
@@ -119,9 +125,9 @@ class RoboticArm(Machine):
 
         def act_on_no_body(found):
             if found:
-                utter_async_passive("你去哪了,我正在找你呢?")
+                self.utter_async_passive("你去哪了,我正在找你呢?")
             else:
-                utter_async_passive("人都去哪了？")
+                self.utter_async_passive("人都去哪了？")
 
         while True:
             result = self.face_service.recognize_sync()
@@ -139,18 +145,20 @@ class RoboticArm(Machine):
                 act_on_no_body(locked)
             elif le == 1:
                 if not locked:
-                    utter_async("已经圈定一个人")
+                    self.utter_async("已经圈定一个人")
                     locked = True
                 posx, posy = get_center_point(result[0].location_data)
                 self.logger.debug(f"x:{posx},y:{posy}")
                 if is_point_at_camera_center(posx, posy):
-                    clear_async_queue()
-                    utter(f"{NAME}对准您了，可以用手势指挥我。")
+                    self.voice_composition.clear_async_queue()
+                    self.voice_composition.wait_for_idle()
+                    self.utter(f"{NAME}对准您了，可以用手势指挥我。")
                     break
                 else:
-                    utter_async_passive("正在将摄像头对准您")
+                    self.utter_async_passive("正在将摄像头对准您")
+                    self.motion.for_test_purpose(posx, posy, 0.4)
             else:
-                utter_async(f"已经在{le}个人中圈定了一个人")
+                self.utter_async(f"已经在{le}个人中圈定了一个人")
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         # self.face_service.stop_working()
@@ -185,7 +193,7 @@ class RoboticArm(Machine):
         self.hands_service.stop_working()
 
     def acquire_user_to_speak(self):
-        utter("您在说话吗？请大声一点。")
+        self.utter("您在说话吗？请大声一点。")
 
     # END Behavior definitions
 
