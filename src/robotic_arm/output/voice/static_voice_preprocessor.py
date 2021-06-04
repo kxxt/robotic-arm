@@ -29,6 +29,7 @@ def build_sound_files():
     e = pyttsx3.init()
     with open("audio.list", encoding='utf-8') as f:
         texts = f.read().splitlines(keepends=False)
+    texts = [text.replace("NAME", NAME) for text in texts]
     dic = {text: md5(text) + '.wav' for text in texts}
     try:
         shutil.rmtree('assets')
@@ -39,8 +40,7 @@ def build_sound_files():
     except:
         logger.warning("Failed to create assets directory!")
     for text in texts:
-        real_text = text.replace("NAME", NAME)
-        e.save_to_file(real_text, path.join('assets', dic[text]))
+        e.save_to_file(text, path.join('assets', dic[text]))
         e.runAndWait()
         decorate_sound_file(2, path.join('assets', dic[text]))
         logger.info(f"Processed {text}.")
