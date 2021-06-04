@@ -34,8 +34,8 @@ class SimulatedMotion(MotionBase):
 
     def set(self, servo_id, value):
         self.robot.q[servo_id] = value
-        self.backend.step()
+        self.backend.step(0.05)
 
     def set_all(self, value):
         self.robot.q = value
-        self.backend.step()
+        self.backend.step(0.05)
