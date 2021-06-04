@@ -1,7 +1,7 @@
 from robotic_arm.input import microphone
 from robotic_arm.recognition.base import RecognitionServiceBase
 from vosk import Model, KaldiRecognizer
-from robotic_arm.config import VOICE_RECOGNITION_MODEL_PATH, VOICE_SAMPLE_RATE, PYTHON_HASH_SEED
+from robotic_arm.config import VOICE_RECOGNITION_MODEL_PATH, VOICE_SAMPLE_RATE, PYTHON_HASH_SEED, NAMES
 import json
 import logging
 
