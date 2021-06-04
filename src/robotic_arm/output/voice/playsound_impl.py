@@ -12,3 +12,8 @@ def utter(text: str):
 
 def utter_async(text: str):
     playsound(get(text), block=False)
+
+
+def utter_async_passive(text: str):
+    logger.warning("Doesn't support passive async uttering! Text will be uttered async.")
+    utter_async(text)

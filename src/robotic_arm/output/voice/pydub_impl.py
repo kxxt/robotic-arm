@@ -7,7 +7,6 @@ from queue import Queue, Full
 from robotic_arm.config import ASYNC_VOICE_COMPOSITION_MAX_QUEUE_SIZE
 from robotic_arm.output.voice.voice_base import voice_output_callback
 
-
 logger = logging.getLogger("pydub")
 voice_cache = dict()
 q = Queue(maxsize=ASYNC_VOICE_COMPOSITION_MAX_QUEUE_SIZE)
@@ -25,6 +24,11 @@ def utter_async(text: str):
             break
         except Full:
             q.get()
+
+
+def utter_async_passive(text: str):
+    if q.empty():
+        utter_async(text)
 
 
 def work():

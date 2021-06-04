@@ -43,3 +43,8 @@ def utter_async(text: str):
     # async_engine.say(text)
     # thread.start()
     async_queue.put(text)
+
+
+def utter_async_passive(text: str):
+    if async_queue.empty():
+        utter_async(text)
