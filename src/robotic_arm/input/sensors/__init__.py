@@ -1,0 +1,1 @@
+from robotic_arm.input.sensors.light import LightSensor
