@@ -49,9 +49,7 @@ class VoiceRecognitionService(RecognitionServiceBase):
 
     @staticmethod
     def process_full(data):
-        # FIXME: Can be optimized further.
-        data = json.loads(data)
-        return VoiceRecognitionService.preprocess_text(data['text'])
+        return VoiceRecognitionService.preprocess_text(data.split('\n')[-2][12:-1])
 
     @staticmethod
     def process_partial(data):
