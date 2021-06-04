@@ -178,7 +178,7 @@ class RoboticArm(Machine):
         # self.hands_service.stop_working()
 
     def acquire_user_to_speak(self):
-        utter("你他妈的说话啊!")
+        utter("您在说话吗？请大声一点。")
 
     # END Behavior definitions
 
