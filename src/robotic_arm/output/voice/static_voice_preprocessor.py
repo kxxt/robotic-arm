@@ -4,7 +4,7 @@ import json
 import shutil
 import os
 
-from robotic_arm.config import VOICE_JSON_PATH, USE_PROCESSED_VOICE_FILE, NAME
+from robotic_arm.config import VOICE_JSON_PATH, USE_PROCESSED_VOICE_FILE, NAME, STATIC_VOICE_PREPROCESSOR_MAX_ITERATIONS
 
 logger = logging.getLogger("voice-preprocessor")
 sv_dict = dict()
@@ -29,8 +29,15 @@ def build_sound_files():
     e = pyttsx3.init()
     with open("audio.list", encoding='utf-8') as f:
         texts = f.read().splitlines(keepends=False)
-    texts = [text.replace("NAME", NAME) for text in texts]
+    magic_texts = {text for text in texts if "MAGICAL_CHINESE_NUMBER" in text}
+    texts = [text.replace("NAME", NAME) for text in texts if text not in magic_texts]
     dic = {text: md5(text) + '.wav' for text in texts}
+    mdic = {
+        mtext.replace("MAGICAL_CHINESE_NUMBER", str(i)):
+            md5(mtext.replace("MAGICAL_CHINESE_NUMBER", str(i))) + '.wav'
+        for i in range(1, STATIC_VOICE_PREPROCESSOR_MAX_ITERATIONS)
+        for mtext in magic_texts
+    }
     try:
         shutil.rmtree('assets')
     except:
@@ -44,6 +51,14 @@ def build_sound_files():
         e.runAndWait()
         decorate_sound_file(2, path.join('assets', dic[text]))
         logger.info(f"Processed {text}.")
+    import cn2an
+    for text in mdic:
+        real_text = cn2an.transform(text, "an2cn")
+        e.save_to_file(real_text, path.join('assets', mdic[text]))
+        e.runAndWait()
+        decorate_sound_file(2, path.join('assets', mdic[text]))
+        logger.info(f"Processed {real_text}.")
+    dic.update(mdic)
     with open("audio.json", "w", encoding='utf-8') as f:
         json.dump(dic, f)
 

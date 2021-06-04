@@ -21,6 +21,8 @@ CAMERA_ID = environ.get('CAMERA_ID') or 0
 
 # Voice composition configurations
 
+STATIC_VOICE_PREPROCESSOR_MAX_ITERATIONS = environ.get('STATIC_VOICE_PREPROCESSOR_MAX_ITERATIONS') or 20
+
 # available solutions are pydub, playsound, pyttsx3
 VOICE_COMPOSE_SOLUTION = environ.get('VOICE_COMPOSE_SOLUTION') or "pydub"
 VOICE_JSON_PATH = environ.get('VOICE_JSON_PATH') or "audio.json"
