@@ -12,6 +12,7 @@ class VoiceRecognitionService(RecognitionServiceBase):
         # 元组中字符串请从详细到简略排列
         "Hello": {"你好", "您好"},
         "Exit": {"退出程序", "退出", "废除"},
+        "Start": NAMES
     }
 
     recognition_hidden_data = {
