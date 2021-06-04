@@ -8,20 +8,23 @@ def event_loop(q: Queue, target_cls):
     motion = target_cls()
     motion.load()
     while msg := q.get(block=True):
-        if callable(msg):
-            msg(motion)
+        if callable(msg[0]):
+            if len(msg) == 2:
+                msg[0](motion, *msg[1])
+            else:
+                msg[0](motion)
         elif len(msg) != 2:
             motion.set_all(msg)
         else:
             motion.set(msg[0], msg[1])
 
 
-def for_test_purpose(self: SimulatedMotion):
+def for_test_purpose(self: SimulatedMotion, x, y, z):
     import spatialmath as sm
     import roboticstoolbox as rtb
     import numpy as np
     self.robot.q = self.robot.qr
-    Tep = self.robot.fkine(self.robot.q) * sm.SE3.Tx(0.2) * sm.SE3.Ty(0.2) * sm.SE3.Tz(0.45)
+    Tep = self.robot.fkine(self.robot.q) * sm.SE3.Tx(x) * sm.SE3.Ty(y) * sm.SE3.Tz(z)
     arrived = False
     while not arrived:
         # Work out the required end-effector velocity to go towards the goal
@@ -47,8 +50,8 @@ class MultiprocessingSimulatedMotion(MotionBase):
     def set_all(self, value):
         self.queue.put(value)
 
-    def for_test_purpose(self):
-        self.send_function(for_test_purpose)
+    def for_test_purpose(self, x, y, z):
+        self.send_function(for_test_purpose, (x, y, z))
 
-    def send_function(self, func):
-        self.queue.put(func)
+    def send_function(self, func, parameters=None):
+        self.queue.put((func,) if parameters is None else (func, parameters))
