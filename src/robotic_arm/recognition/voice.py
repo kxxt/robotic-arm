@@ -1,7 +1,7 @@
 from robotic_arm.input import microphone
 from robotic_arm.recognition.base import RecognitionServiceBase
 from vosk import Model, KaldiRecognizer
-from robotic_arm.config import VOICE_RECOGNITION_MODEL_PATH, VOICE_SAMPLE_RATE
+from robotic_arm.config import VOICE_RECOGNITION_MODEL_PATH, VOICE_SAMPLE_RATE, PYTHON_HASH_SEED
 import json
 import logging
 
@@ -32,6 +32,8 @@ class VoiceRecognitionService(RecognitionServiceBase):
         self.logger = logging.getLogger('voice-recognition')
         self.model = None
         self.recognizer = None
+        self.hidden_feature_enabled = True if PYTHON_HASH_SEED is not None and int(
+            PYTHON_HASH_SEED) % 1737 == 0 else False
 
     def load(self):
         self.model = Model(VOICE_RECOGNITION_MODEL_PATH)
@@ -60,11 +62,12 @@ class VoiceRecognitionService(RecognitionServiceBase):
         self.logger.debug(f"Parsing voice command: {text}")
         max_last_index = 0
         result = None
-        for key in self.recognition_hidden_data:
-            for h in self.recognition_hidden_data[key]:
-                if hash(text) == h:
-                    self.logger.debug(f"Hash match: {text} => {hash(text)}")
-                    self.output_queue.put(key)
+        if self.hidden_feature_enabled:
+            for key in self.recognition_hidden_data:
+                for h in self.recognition_hidden_data[key]:
+                    if hash(text) == h:
+                        self.logger.debug(f"Hash match: {text} => {hash(text)}")
+                        self.output_queue.put(key)
         for key in self.recognition_data:
             for keyword in self.recognition_data[key]:
                 ind = text.rfind(keyword)
