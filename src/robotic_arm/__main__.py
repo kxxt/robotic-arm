@@ -1,8 +1,7 @@
 import logging
 import os
 from robotic_arm.input import init_video_device_async
-from robotic_arm.output import load_display_service, utter_async
-from robotic_arm.output import load_voice_composition_service
+from robotic_arm.output import load_display_service, VoiceComposition
 from robotic_arm.output.voice import register_voice_output_callback
 from robotic_arm.config import NAME
 
@@ -11,8 +10,9 @@ logger.info("Loading display service ...")
 init_video_device_async()
 disp = load_display_service()
 register_voice_output_callback(lambda x: disp.println(x))
-load_voice_composition_service()
-utter_async(f"欢迎使用智能机械臂，我叫{NAME}，程序还在加载，请稍等片刻")
+vc = VoiceComposition()
+vc.load()
+vc.utter_async(f"欢迎使用智能机械臂，我叫{NAME}，程序还在加载，请稍等片刻")
 
 from robotic_arm import RoboticArm
 from robotic_arm.recognition import *
@@ -36,5 +36,5 @@ face_service.run()
 hands_service.run()
 voice_service.run()
 
-arm = RoboticArm(face_service, voice_service, hands_service, motion, disp)
+arm = RoboticArm(face_service, voice_service, hands_service, vc, motion, disp)
 arm.run()

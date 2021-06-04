@@ -4,6 +4,7 @@ import cv2
 from cv2.cv2 import VideoCapture
 
 from robotic_arm.config import CAMERA_ID
+from robotic_arm.output import VoiceCompositionBase
 import threading
 
 video_capture: Union[VideoCapture, None] = None
@@ -17,8 +18,7 @@ def is_video_ready():
 def wait_until_video_ready():
     if is_video_ready():
         return
-    from robotic_arm.output import utter
-    utter("正在等待摄像头设备启动，请稍候。")
+    VoiceCompositionBase.get_instance().utter("正在等待摄像头设备启动，请稍候。")
     video_ready.wait()
 
 

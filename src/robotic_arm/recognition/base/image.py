@@ -1,4 +1,4 @@
-from robotic_arm.output import utter_async
+from robotic_arm.output import VoiceCompositionBase
 from robotic_arm.recognition.base.base import RecognitionServiceBase
 
 
@@ -21,5 +21,5 @@ class ImageRecognitionService(RecognitionServiceBase):
     def wait_for_ready(self):
         if not self.loaded.isSet():
             self.logger.warning("Service is not ready when required! Probably performance issues.")
-            utter_async("程序正在加载中,请稍候")
+            VoiceCompositionBase.get_instance().utter_async("程序正在加载中,请稍候")
             self.loaded.wait()
