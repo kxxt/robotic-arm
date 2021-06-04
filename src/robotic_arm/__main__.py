@@ -8,13 +8,11 @@ from robotic_arm.config import NAME
 
 logger = logging.getLogger(__name__)
 logger.info("Loading display service ...")
-
+init_video_device_async()
 disp = load_display_service()
 register_voice_output_callback(lambda x: disp.println(x))
 load_voice_composition_service()
 utter_async(f"欢迎使用智能机械臂，我叫{NAME}，程序还在加载，请稍等片刻")
-
-init_video_device_async()
 
 from robotic_arm import RoboticArm
 from robotic_arm.recognition import *
