@@ -17,3 +17,7 @@ def utter_async(text: str):
 def utter_async_passive(text: str):
     logger.warning("Doesn't support passive async uttering! Text will be uttered async.")
     utter_async(text)
+
+
+def clear_async_queue():
+    logger.warning("Doesn't support clearing async queue. Do nothing!")

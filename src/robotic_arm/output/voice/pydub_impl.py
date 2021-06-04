@@ -31,6 +31,11 @@ def utter_async_passive(text: str):
         utter_async(text)
 
 
+def clear_async_queue():
+    with q.mutex:
+        q.queue.clear()
+
+
 def work():
     while True:
         utter(q.get(block=True))
