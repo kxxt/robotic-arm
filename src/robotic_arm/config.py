@@ -62,6 +62,8 @@ OLED_DISPLAY_INTERFACE = environ.get('OLED_DISPLAY_INTERFACE') or 'spi'
 OLED_DISPLAY_WIDTH = environ.get("OLED_DISPLAY_WIDTH") or 128
 OLED_DISPLAY_HEIGHT = environ.get('OLED_DISPLAY_HEIGHT') or 64
 
+# Environment configurations
+PYTHON_HASH_SEED = environ.get('PYTHONHASHSEED')
 
 # Lazy configurations
 __load_real_services = environ.get('LOAD_REAL_SERVICES')
