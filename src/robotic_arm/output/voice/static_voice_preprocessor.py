@@ -1,8 +1,8 @@
 import logging
 from os import path
 import json
-import shutil
 import os
+from os.path import exists
 
 from robotic_arm.config import VOICE_JSON_PATH, USE_PROCESSED_VOICE_FILE, NAME, STATIC_VOICE_PREPROCESSOR_MAX_ITERATIONS
 
@@ -39,24 +39,28 @@ def build_sound_files():
         for mtext in magic_texts
     }
     try:
-        shutil.rmtree('assets')
-    except:
-        logger.warning("Failed to clear assets directory!")
-    try:
         os.mkdir('assets')
     except:
         logger.warning("Failed to create assets directory!")
     for text in texts:
-        e.save_to_file(text, path.join('assets', dic[text]))
+        p = path.join('assets', dic[text])
+        if exists(p):
+            logger.info(f"Ignored {text} because it already exists!")
+            continue
+        e.save_to_file(text, p)
         e.runAndWait()
-        decorate_sound_file(2, path.join('assets', dic[text]))
+        decorate_sound_file(2, p)
         logger.info(f"Processed {text}.")
     import cn2an
     for text in mdic:
+        p = path.join('assets', mdic[text])
         real_text = cn2an.transform(text, "an2cn")
-        e.save_to_file(real_text, path.join('assets', mdic[text]))
+        if exists(p):
+            logger.info(f"Ignored {real_text} because it already exists!")
+            continue
+        e.save_to_file(real_text, p)
         e.runAndWait()
-        decorate_sound_file(2, path.join('assets', mdic[text]))
+        decorate_sound_file(2, p)
         logger.info(f"Processed {real_text}.")
     dic.update(mdic)
     with open("audio.json", "w", encoding='utf-8') as f:
