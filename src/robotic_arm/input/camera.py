@@ -39,6 +39,7 @@ def get_raw_frame():
     Get raw camera frame (RGB)
     :return: Raw frame from camera (RGB)
     """
+    wait_until_video_ready()
     success, image = video_capture.read()
     if not success:
         return None
@@ -52,6 +53,7 @@ def get_frame(fx=0.25, fy=0.25):
     :param fy: y resize factor
     :return: resized frame
     """
+    wait_until_video_ready()
     success, image = video_capture.read()
     if not success:
         return None

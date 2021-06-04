@@ -1,7 +1,7 @@
 from robotic_arm.recognition.base import ImageRecognitionService
 import logging
 import numpy as np
-from robotic_arm.input.camera import get_frame, get_raw_frame, wait_until_video_ready
+from robotic_arm.input.camera import get_frame, get_raw_frame
 from robotic_arm.config import MEDIAPIPE_FACE_DETECTION_MIN_CONFIDENCE
 import mediapipe as mp
 from datetime import datetime
@@ -18,7 +18,7 @@ class FaceRecognitionService(ImageRecognitionService):
 
     def load(self):
         self.service = mp_face_detection.FaceDetection(min_detection_confidence=MEDIAPIPE_FACE_DETECTION_MIN_CONFIDENCE)
-        wait_until_video_ready()
+
     # Raw detection format:
     # detections: iterable [
     #    @index [i]: PyObject {

@@ -1,6 +1,6 @@
 from robotic_arm.recognition.base import ImageRecognitionService
 from robotic_arm.config import HANDS_MIN_DETECTION_CONFIDENCE, HANDS_MIN_TRACKING_CONFIDENCE
-from robotic_arm.input.camera import get_frame, get_raw_frame, wait_until_video_ready
+from robotic_arm.input.camera import get_frame, get_raw_frame
 import mediapipe as mp
 import cv2
 import logging
@@ -19,7 +19,6 @@ class HandsRecognitionService(ImageRecognitionService):
         self.service = mp_hands.Hands(
             min_detection_confidence=HANDS_MIN_DETECTION_CONFIDENCE,
             min_tracking_confidence=HANDS_MIN_TRACKING_CONFIDENCE)
-        wait_until_video_ready()
 
     def recognize(self, frame):
         self.process += 1
