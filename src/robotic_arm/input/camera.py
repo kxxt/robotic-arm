@@ -14,6 +14,12 @@ def is_video_ready():
     return video_ready.is_set()
 
 
+def wait_until_video_ready():
+    from robotic_arm.output import utter
+    utter("正在等待摄像头设备启动，请稍候。")
+    video_ready.wait()
+
+
 def init_video_device():
     global video_capture, video_ready
     cv2.VideoCapture(CAMERA_ID)
