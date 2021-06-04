@@ -48,6 +48,11 @@ class RoboticArm(Machine):
         utter_async("我好得很!")
         return False
 
+    def voice_command_start_handler(self) -> bool:
+        self.logger.info("Start! From handler!")
+        # utter_async("!")
+        return False
+
     def voice_command_exit_handler(self) -> bool:
         self.logger.info("Exit! From handler!")
         utter("即将退出")
@@ -66,6 +71,7 @@ class RoboticArm(Machine):
     voice_command_handlers = {
         "Hello": voice_command_hello_handler,
         "Exit": voice_command_exit_handler,
+        "Start": voice_command_start_handler,
         "-812530379159490365": hash_negative_812530379159490365_handler,
         "7951174358884070940": hash_7951174358884070940_handler
     }
