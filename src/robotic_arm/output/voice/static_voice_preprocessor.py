@@ -4,7 +4,7 @@ import json
 import shutil
 import os
 
-from robotic_arm.config import VOICE_JSON_PATH, USE_PROCESSED_VOICE_FILE
+from robotic_arm.config import VOICE_JSON_PATH, USE_PROCESSED_VOICE_FILE, NAME
 
 logger = logging.getLogger("voice-preprocessor")
 sv_dict = dict()
@@ -39,7 +39,8 @@ def build_sound_files():
     except:
         logger.warning("Failed to create assets directory!")
     for text in texts:
-        e.save_to_file(text, path.join('assets', dic[text]))
+        real_text = text.replace("NAME", NAME)
+        e.save_to_file(real_text, path.join('assets', dic[text]))
         e.runAndWait()
         decorate_sound_file(2, path.join('assets', dic[text]))
         logger.info(f"Processed {text}.")
