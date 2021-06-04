@@ -1,6 +1,6 @@
 import logging
 from queue import Empty
-from time import sleep
+import os
 
 import cv2
 from transitions import Machine
@@ -57,12 +57,12 @@ class RoboticArm(Machine):
 
     def voice_command_start_handler(self) -> bool:
         self.logger.info("Start! From handler!")
-        # utter_async("!")
-        return False
+        self.utter_async(f"{NAME}来了")
+        return True
 
     def voice_command_exit_handler(self) -> bool:
         self.logger.info("Exit! From handler!")
-        self.utter("即将退出")
+        self.perform_goodbye()
         return True
 
     def hash_negative_812530379159490365_handler(self) -> bool:
@@ -97,11 +97,11 @@ class RoboticArm(Machine):
         print("End Welcoming")
 
     def perform_goodbye(self):
-        print("Welcoming!")
-        sleep(5)
+        self.utter("感谢您的使用，程序即将退出。")
+        self.display.device.cleanup()
+        os._exit(0)
 
     def on_enter_voice_detecting(self):
-        import random
         print("Voice detecting!")
         self.voice_service.wait_for_ready()
         self.voice_service.start_working()
@@ -156,7 +156,6 @@ class RoboticArm(Machine):
                     break
                 else:
                     self.utter_async_passive("正在将摄像头对准您")
-                    self.motion.for_test_purpose(posx, posy, 0.4)
             else:
                 self.utter_async(f"已经在{le}个人中圈定了一个人")
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -185,6 +184,7 @@ class RoboticArm(Machine):
                 for mark in marks:
                     mp_drawing.draw_landmarks(
                         frame, mark, mp_hands.HAND_CONNECTIONS)
+                # self.motion.for_test_purpose(posx, posy, 0.4)
                 cv2.imshow("Hands", frame)
             except Empty:
                 pass
@@ -200,7 +200,6 @@ class RoboticArm(Machine):
     def run(self):
         self.perform_welcoming()
         self.welcomed()
-        # 当识别到"退出程序"时 , voice_detected 失败, 返回False 结束循环
         while self.voice_detected():
             self.pointed_at_face()
             self.max_time_reached()
