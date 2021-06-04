@@ -160,7 +160,7 @@ class RoboticArm(Machine):
         mp_hands = mp.solutions.hands
         print("Hand Tracking!")
         self.hands_service.wait_for_ready()
-        # self.hands_service.start_working()
+        self.hands_service.start_working()
         while True:
             frame = get_raw_frame()
             if frame is None:
@@ -169,7 +169,7 @@ class RoboticArm(Machine):
                 # marks = None
                 # while not self.hands_service.output_queue.empty():
                 #    marks = self.hands_service.output_queue.get_nowait()
-                marks = self.hands_service.output_queue.get_nowait()
+                marks = self.hands_service.output_queue.get()
                 if not marks:
                     self.logger.info("Encountered empty marks!")
                     continue
@@ -181,7 +181,7 @@ class RoboticArm(Machine):
                 pass
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-        # self.hands_service.stop_working()
+        self.hands_service.stop_working()
 
     def acquire_user_to_speak(self):
         utter("您在说话吗？请大声一点。")
