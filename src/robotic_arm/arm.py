@@ -5,8 +5,9 @@ from time import sleep
 import cv2
 from transitions import Machine
 
+from robotic_arm.config import NAME
 from robotic_arm.input.camera import get_raw_frame
-from robotic_arm.output import utter, utter_async
+from robotic_arm.output import utter, utter_async, utter_async_passive, clear_async_queue
 from robotic_arm.recognition import FaceRecognitionService, VoiceRecognitionService, HandsRecognitionService
 from robotic_arm.utils import get_center_point, is_point_at_camera_center
 from robotic_arm.motion.base import MotionBase
@@ -118,9 +119,9 @@ class RoboticArm(Machine):
 
         def act_on_no_body(found):
             if found:
-                utter_async("你去哪了,我正在找你呢?")
+                utter_async_passive("你去哪了,我正在找你呢?")
             else:
-                utter_async("人都死光了吗?来个人让我瞧瞧")
+                utter_async_passive("人都去哪了？")
 
         while True:
             result = self.face_service.recognize_sync()
@@ -138,18 +139,18 @@ class RoboticArm(Machine):
                 act_on_no_body(locked)
             elif le == 1:
                 if not locked:
-                    utter_async("就你一个人?做好被枪毙的准备了吗?")
+                    utter_async("已经圈定一个人")
                     locked = True
                 posx, posy = get_center_point(result[0].location_data)
                 self.logger.debug(f"x:{posx},y:{posy}")
                 if is_point_at_camera_center(posx, posy):
-                    utter("你已经被枪毙了!")
-                    self.logger.debug("You died!")
+                    clear_async_queue()
+                    utter(f"{NAME}对准您了，可以用手势指挥我。")
                     break
                 else:
-                    utter_async("请把头对准枪口")
+                    utter_async_passive("正在将摄像头对准您")
             else:
-                utter_async("好多人呀!我要随便挑一个枪毙!")
+                utter_async(f"已经在{le}个人中圈定了一个人")
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         # self.face_service.stop_working()
