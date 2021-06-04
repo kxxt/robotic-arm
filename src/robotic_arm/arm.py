@@ -106,7 +106,7 @@ class RoboticArm(Machine):
                     break
             except Empty:
                 self.acquire_user_to_speak()
-                self.motion.for_test_purpose()
+                self.motion.for_test_purpose(0.1, 0.2, 0.3)
         self.voice_service.stop_working()
 
     def on_enter_face_detecting(self):
