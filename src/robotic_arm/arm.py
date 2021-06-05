@@ -92,6 +92,8 @@ class RoboticArm(Machine):
     # BEGIN Behavior definitions
 
     def perform_welcoming(self):
+        self.voice_composition.clear_async_queue()
+        self.voice_composition.wait_for_idle()
         self.utter("程序加载完成，试试对我说小亮小亮。")
 
     def perform_goodbye(self):
@@ -124,7 +126,7 @@ class RoboticArm(Machine):
             if found:
                 self.utter_async_passive("你去哪了,我正在找你呢?")
             else:
-                self.utter_async_passive("人都去哪了？")
+                self.utter_async_passive("人都去哪了？怎么突然没人了？")
 
         while True:
             result = self.face_service.recognize_sync()
