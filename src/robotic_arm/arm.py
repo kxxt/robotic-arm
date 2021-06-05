@@ -92,9 +92,7 @@ class RoboticArm(Machine):
     # BEGIN Behavior definitions
 
     def perform_welcoming(self):
-        print("Welcoming!")
-
-        print("End Welcoming")
+        self.utter("程序加载完成，试试对我说小亮小亮。")
 
     def perform_goodbye(self):
         self.utter("感谢您的使用，程序即将退出。")
@@ -102,7 +100,6 @@ class RoboticArm(Machine):
         os._exit(0)
 
     def on_enter_voice_detecting(self):
-        print("Voice detecting!")
         self.voice_service.wait_for_ready()
         self.voice_service.start_working()
         while True:
@@ -166,9 +163,9 @@ class RoboticArm(Machine):
         import mediapipe as mp
         mp_drawing = mp.solutions.drawing_utils
         mp_hands = mp.solutions.hands
-        print("Hand Tracking!")
         self.hands_service.wait_for_ready()
         self.hands_service.start_working()
+        executed = False
         while True:
             frame = get_raw_frame()
             if frame is None:
@@ -184,7 +181,10 @@ class RoboticArm(Machine):
                 for mark in marks:
                     mp_drawing.draw_landmarks(
                         frame, mark, mp_hands.HAND_CONNECTIONS)
-                # self.motion.for_test_purpose(posx, posy, 0.4)
+                if not executed:
+                    executed = True
+                    mark = marks[0]
+                    self.motion.for_test_purpose(mark.landmark[0].x, mark.landmark[0].y, 0.4)
                 cv2.imshow("Hands", frame)
             except Empty:
                 pass
