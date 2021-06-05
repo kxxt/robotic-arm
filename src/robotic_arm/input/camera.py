@@ -35,6 +35,12 @@ def init_video_device_async():
 
 
 def get_raw_frame():
+    wait_until_video_ready()
+    success, image = video_capture.read()
+    return image if success else None
+
+
+def get_unresized_frame():
     """
     Get raw camera frame (RGB)
     :return: Raw frame from camera (RGB)

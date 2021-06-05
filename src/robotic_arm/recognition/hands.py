@@ -1,6 +1,6 @@
 from robotic_arm.recognition.base import ImageRecognitionService
 from robotic_arm.config import HANDS_MIN_DETECTION_CONFIDENCE, HANDS_MIN_TRACKING_CONFIDENCE
-from robotic_arm.input.camera import get_frame, get_raw_frame
+from robotic_arm.input.camera import get_frame, get_unresized_frame
 import mediapipe as mp
 import logging
 
@@ -43,13 +43,13 @@ class HandsRecognitionService(ImageRecognitionService):
     #     },...
     # ]
     def real_work(self):
-        result = self.recognize(get_raw_frame())
+        result = self.recognize(get_unresized_frame())
         if result is not None and result.multi_hand_landmarks is not None:
             if self.output_queue.full():
                 self.output_queue.get()
             self.output_queue.put(result.multi_hand_landmarks)
 
     def recognize_sync(self):
-        result = self.recognize(get_raw_frame())
+        result = self.recognize(get_unresized_frame())
         if result is not None and result.multi_hand_landmarks is not None:
             return result.multi_hand_landmarks
