@@ -2,7 +2,6 @@ from robotic_arm.recognition.base import ImageRecognitionService
 from robotic_arm.config import HANDS_MIN_DETECTION_CONFIDENCE, HANDS_MIN_TRACKING_CONFIDENCE
 from robotic_arm.input.camera import get_frame, get_raw_frame
 import mediapipe as mp
-import cv2
 import logging
 
 mp_hands = mp.solutions.hands
