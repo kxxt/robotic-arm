@@ -1,12 +1,13 @@
 import logging
-
+logger = logging.getLogger("voice-composition-base")
 
 class VoiceCompositionBase:
-    _instance = None
+    _instance = []
 
     def __new__(cls, *args, **kwargs):
         instance = object.__new__(cls)
-        cls._instance = instance
+        logger.warning(f"Setting instance of VoiceCompositionBase to {instance}")
+        cls._instance.append(instance)
         return instance
 
     def __init__(self):
@@ -14,7 +15,8 @@ class VoiceCompositionBase:
 
     @classmethod
     def get_instance(cls):
-        return cls._instance
+        logger.info(f"Retrieving Instance of VoiceCompositionBase: {cls._instance}")
+        return cls._instance[-1]
 
     def utter(self, text: str):
         pass
