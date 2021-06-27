@@ -1,7 +1,10 @@
 from typing import Union
 
 import cv2
-from cv2.cv2 import VideoCapture
+try:
+    from cv2 import VideoCapture
+except:
+    from cv2.cv2 import VideoCapture
 
 from robotic_arm.config import CAMERA_ID
 from robotic_arm.output import VoiceCompositionBase
