@@ -9,3 +9,5 @@ playsound
 numpy
 pydub
 luma.oled
+roboticstoolbox-python
+luma.emulator

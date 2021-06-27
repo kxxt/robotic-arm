@@ -1,3 +1,1 @@
 face_recognition
-roboticstoolbox-python
-luma.emulator
