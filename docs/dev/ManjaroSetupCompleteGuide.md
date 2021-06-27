@@ -74,7 +74,8 @@ unzip v2ray-*.zip -d v2ray/
 
 ### 项目密切相关依赖
 ```bash
-sudo pacman -S gst-python openblas lapack i2c-tools
+sudo pacman -S gst-python lapack i2c-tools sdl freetype freetype2-demos sdl_gfx sdl_pango sdl_net sdl_sound sdl_image python-pygame python-pygame-sdl2 python-pillow opencv python-opencv
+sudo pacman -S blas
 yay --aur python-raspberry-gpio 
 ```
 #### Python 包
@@ -83,6 +84,7 @@ yay --aur python-raspberry-gpio
 # 切换到工程目录下
 sudo pip3 install prebuilt/aarch64/vosk/*.whl
 sudo pip3 install prebuilt/aarch64/dlib/*.whl
+sudo pip3 install prebuilt/aarch64/mediapipe/*.whl
 sudo pacman -U prebuilt/aarch64/tflite2.4/*.zst
 sudo pip3 install -r requirements.txt
 # uncomment mediapipe.python.solutions.drawing_utils
