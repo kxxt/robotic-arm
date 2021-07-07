@@ -15,6 +15,7 @@ __servo_serial_baud = environ.get('SERVO_SERIAL_BAUD')
 
 SERVO_SERIAL_BAUD = int(__servo_serial_baud) if __servo_serial_baud is not None else 115200
 SERVO_BOARD_PORTS = (17, 27)
+DIGITAL_SERVO_PIN = 12
 
 # Electronic configurations
 LIGHT_PIN = environ.get('LIGHT_PIN') or 14
