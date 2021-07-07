@@ -9,6 +9,11 @@ NAMES = {NAME, "销量", "晓亮", "小量", "小了"}
 # Hardware configurations
 ARM_LENGTHS = []
 SERVO_PINS = []
+SERVO_SERIAL_PATH = environ.get('SERVO_SERIAL_PATH') or "/dev/ttyAMA0"
+
+__servo_serial_baud = environ.get('SERVO_SERIAL_BAUD')
+
+SERVO_SERIAL_BAUD = int(__servo_serial_baud) if __servo_serial_baud is not None else 115200
 
 # Electronic configurations
 LIGHT_PIN = environ.get('LIGHT_PIN') or 14
@@ -35,7 +40,7 @@ ASYNC_VOICE_COMPOSITION_MAX_QUEUE_SIZE = environ.get('ASYNC_VOICE_COMPOSITION_MA
 FACE_RECOGNITION_SOLUTION = environ.get('FACE_RECOGNITION_SOLUTION') or "mediapipe"
 
 # Mediapipe face_detection configurations.
-MEDIAPIPE_FACE_DETECTION_MIN_CONFIDENCE = environ.get('MEDIAPIPE_FACE_DETECTION_MIN_CONFIDENCE') or 0.8
+MEDIAPIPE_FACE_DETECTION_MIN_CONFIDENCE = environ.get('MEDIAPIPE_FACE_DETECTION_MIN_CONFIDENCE') or 0.75
 
 # hand tracking configurations
 HANDS_MIN_DETECTION_CONFIDENCE = environ.get('HANDS_MIN_DETECTION_CONFIDENCE') or 0.6
