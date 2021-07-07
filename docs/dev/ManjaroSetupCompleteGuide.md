@@ -14,6 +14,11 @@ start_x=1
 # Enables I2C
 dtparam=i2c1=on
 dtparam=spi=on
+framebuffer_width=1824
+framebuffer_height=984
+hdmi_group=1
+hdmi_mode=1
+hdmi_force_hotplug=1
 ```
 
 弹出SD卡, 插入树莓派上电开机(HDMI外接屏幕)
@@ -46,6 +51,9 @@ pip,yay和基本的开发工具
 ```bash
 sudo pacman -S python-pip yay base-devel net-tools cmake
 yay -S pigpio # GPIO 包
+yay -S realvnc-vnc-server-aarch64 #　VNC
+sudo systemctl enable vncserver-x11-serviced.service
+sudo systemctl enable vncserver-virtuald.service
 ```
 
 ### 中文输入法(Optional)
