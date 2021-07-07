@@ -1,0 +1,33 @@
+from robotic_arm.motion.base import MotionBase
+from robotic_arm.config import SERVO_SERIAL_PATH, SERVO_SERIAL_BAUD
+from robotic_arm.motion.reality.serial import lib
+
+from functools import partial
+
+
+class SerialServos(MotionBase):
+    def __init__(self, ids=None):
+        self.ids = ids
+        self.handle = lib.acquire_serial_handle()
+        self._write = partial(lib.servo_exec,
+                              handle=self.handle,
+                              cmd=lib.servo_commands["write"])
+        self._read = partial(lib.servo_read,
+                             handle=self.handle)
+
+    def load(self):
+        lib.init_servo_board()
+
+    def set(self, id, value, time=1000):
+        self._write(id=id, par1=value, par2=time)
+
+    def set_all(self, value, time=1000):
+        pass
+
+    def get(self, id):
+        self._read(id=id)
+
+    def get_all(self):
+        if self.ids is None:
+            raise ValueError("Please set ids of the SerialServos first!")
+        return [self.get(id) for id in self.ids]
