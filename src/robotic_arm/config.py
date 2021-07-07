@@ -6,6 +6,10 @@ import logging
 # Basic profile data
 NAME = '小亮'
 NAMES = {NAME, "销量", "晓亮", "小量", "小了"}
+
+# Physic configurations
+URDF_PATH = "models/physics/xacro/Robot1.SLDASM/urdf/Robot1.SLDASM.urdf"
+
 # Hardware configurations
 ARM_LENGTHS = []
 SERVO_PINS = []
