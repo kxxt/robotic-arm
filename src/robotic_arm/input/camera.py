@@ -1,6 +1,7 @@
 from typing import Union
 
 import cv2
+
 try:
     from cv2 import VideoCapture
 except:
@@ -8,10 +9,14 @@ except:
 
 from robotic_arm.config import CAMERA_ID
 from robotic_arm.output import VoiceCompositionBase
+
+import logging
 import threading
 
 video_capture: Union[VideoCapture, None] = None
 video_ready: threading.Event = threading.Event()
+
+logger = logging.getLogger("camera")
 
 
 def is_video_ready():
@@ -39,7 +44,12 @@ def init_video_device_async():
 
 def get_raw_frame():
     wait_until_video_ready()
-    success, image = video_capture.read()
+    while True:
+        try:
+            success, image = video_capture.read()
+            break
+        except:
+            logger.warning("Failed to read from video capture! Retrying...")
     return image if success else None
 
 
@@ -49,7 +59,12 @@ def get_unresized_frame():
     :return: Raw frame from camera (RGB)
     """
     wait_until_video_ready()
-    success, image = video_capture.read()
+    while True:
+        try:
+            success, image = video_capture.read()
+            break
+        except:
+            logger.warning("Failed to read from video capture! Retrying...")
     if not success:
         return None
     return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # convert to RGB from BGR
