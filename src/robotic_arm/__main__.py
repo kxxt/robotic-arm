@@ -15,6 +15,9 @@ init_video_device_async()
 disp = load_display_service()
 register_voice_output_callback(lambda x: disp.println(x))
 
+logger.info("Loading GPIO services...")
+from robotic_arm.gpio import pi
+logger.info("GPIO services loaded!")
 
 from robotic_arm import RoboticArm
 from robotic_arm.recognition import *
