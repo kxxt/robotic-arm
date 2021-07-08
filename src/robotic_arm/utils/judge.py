@@ -1,8 +1,10 @@
 from robotic_arm.config import CAMERA_CENTER_JUDGEMENT_OFFSET, CAMERA_CENTER_AREA_JUDGEMENT_RATIO
+import numpy as np
 
 __camera_center_judgement_lower_bound = 0.5 - CAMERA_CENTER_JUDGEMENT_OFFSET
 __camera_center_judgement_upper_bound = 0.5 + CAMERA_CENTER_JUDGEMENT_OFFSET
 __camera_center_judgement_area = 4 * CAMERA_CENTER_JUDGEMENT_OFFSET ** 2
+mid_vec = np.array([0.5, 0.5])
 
 
 def is_point_at_camera_center(x: float, y: float) -> bool:
@@ -25,3 +27,10 @@ def is_rect_at_camera_center(x: float, y: float, width: float, height: float) ->
     intersection_height = min(xm, __camera_center_judgement_upper_bound) - max(x, __camera_center_judgement_lower_bound)
     intersection_width = min(ym, __camera_center_judgement_upper_bound) - max(y, __camera_center_judgement_lower_bound)
     return intersection_width * intersection_height > CAMERA_CENTER_AREA_JUDGEMENT_RATIO * __camera_center_judgement_area
+
+
+def get_diff_vector_from_center(data):
+    xmid = data.relative_bounding_box.xmin + data.relative_bounding_box.width / 2
+    ymid = data.relative_bounding_box.ymin + data.relative_bounding_box.height / 2
+    vec = np.array([xmid, ymid]) - mid_vec
+    return vec / np.linalg.norm(vec)
