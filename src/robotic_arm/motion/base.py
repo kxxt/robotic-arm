@@ -1,4 +1,7 @@
 class MotionBase:
+    def __init__(self):
+        self.physics = None
+
     def load(self):
         pass
 

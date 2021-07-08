@@ -5,6 +5,7 @@ from robotic_arm.motion.reality.digital import DigitalServo
 
 class CompositeMotion(MotionBase):
     def __init__(self, dig: DigitalServo, ser: SerialServos):
+        super().__init__()
         self.digital_servo = dig
         self.serial_servos = ser
 

@@ -6,6 +6,7 @@ from robotic_arm.gpio import pi
 
 class DigitalServo(ServoBase):
     def __init__(self, pin=None, ran=None):
+        super().__init__()
         self.pin = pin or DIGITAL_SERVO_PIN
         self.range = ran or (500, 2500)
 

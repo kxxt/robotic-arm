@@ -8,6 +8,7 @@ from functools import partial
 
 class SerialServos(MotionBase):
     def __init__(self, ids=None, ran=None):
+        super().__init__()
         self.ids = ids
         self.handle = lib.acquire_serial_handle()
         self._write = partial(lib.servo_exec,
