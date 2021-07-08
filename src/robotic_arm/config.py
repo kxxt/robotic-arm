@@ -13,8 +13,6 @@ URDF_PATH = "Robot1.SLDASM/urdf/Robot1.SLDASM.urdf"
 UNIFIED_RANGE = (-pi / 2, pi / 2)
 
 # Hardware configurations
-ARM_LENGTHS = []
-SERVO_PINS = []
 SERVO_SERIAL_PATH = environ.get('SERVO_SERIAL_PATH') or "/dev/ttyAMA0"
 
 __servo_serial_baud = environ.get('SERVO_SERIAL_BAUD')
@@ -24,7 +22,8 @@ SERVO_BOARD_PORTS = (17, 27)
 DIGITAL_SERVO_PIN = 12
 
 # Electronic configurations
-LIGHT_PIN = environ.get('LIGHT_PIN') or 14
+LIGHT_PIN = environ.get('LIGHT_PIN') or 7
+LIGHTNESS_SENSOR_PIN = environ.get('LIGHTNESS_SENSOR_PIN') or 23
 
 # Application configurations
 LOGGING_LEVEL = logging.DEBUG
