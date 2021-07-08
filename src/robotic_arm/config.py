@@ -2,13 +2,15 @@
 from os import path, environ
 import sounddevice as sd
 import logging
+from math import pi
 
 # Basic profile data
 NAME = '小亮'
 NAMES = {NAME, "销量", "晓亮", "小量", "小了"}
 
 # Physic configurations
-URDF_PATH = "models/physics/xacro/Robot1.SLDASM/urdf/Robot1.SLDASM.urdf"
+URDF_PATH = "Robot1.SLDASM/urdf/Robot1.SLDASM.urdf"
+UNIFIED_RANGE = (-pi / 2, pi / 2)
 
 # Hardware configurations
 ARM_LENGTHS = []
