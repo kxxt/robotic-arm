@@ -6,6 +6,7 @@ except:
     from roboticstoolbox.backends.Swift import Swift
 
 from robotic_arm.motion.base import MotionBase
+from robotic_arm.motion.physics import PhysicalModel
 
 
 class SimulatedMotion(MotionBase):
@@ -14,7 +15,7 @@ class SimulatedMotion(MotionBase):
         self.backend = None
 
     def load(self):
-        self.robot = rtb.models.Panda()
+        self.robot = PhysicalModel()
         self.backend = Swift()
         self.backend.launch()
         self.backend.add(self.robot)
@@ -32,10 +33,10 @@ class SimulatedMotion(MotionBase):
             # Step the simulator by 50 milliseconds
             self.backend.step(0.05)
 
-    def set(self, servo_id, value):
+    def set(self, servo_id, value, time=50):
         self.robot.q[servo_id] = value
-        self.backend.step(0.05)
+        self.backend.step(time / 1000)
 
-    def set_all(self, value):
+    def set_all(self, value, time=50):
         self.robot.q = value
-        self.backend.step(0.05)
+        self.backend.step(50 / 1000)
