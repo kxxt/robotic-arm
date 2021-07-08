@@ -1,3 +1,3 @@
 class SensorBase:
-    def init_sensor(self):
+    def load(self):
         pass
