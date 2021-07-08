@@ -6,7 +6,7 @@ from robotic_arm.gpio import pi
 
 
 class Light:
-    def __init__(self, pin: int):
+    def __init__(self, pin: int = None):
         self.pin = pin or LIGHT_PIN
         pi.set_mode(self.pin, pigpio.OUTPUT)
 
