@@ -4,10 +4,10 @@ from robotic_arm.motion.reality.digital import DigitalServo
 
 
 class CompositeMotion(MotionBase):
-    def __init__(self, dig: DigitalServo, ser: SerialServos):
+    def __init__(self, dig: DigitalServo = None, ser: SerialServos = None):
         super().__init__()
-        self.digital_servo = dig
-        self.serial_servos = ser
+        self.digital_servo = dig or DigitalServo()
+        self.serial_servos = ser or SerialServos()
 
     def set(self, id, value, time=1000):
         if id == 1:
