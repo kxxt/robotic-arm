@@ -22,7 +22,9 @@ class RoboticArm(Machine):
                  hands_service: HandsRecognitionService,
                  voice_composition: VoiceCompositionBase,
                  motion_impl: MotionBase,
-                 display_service):
+                 display_service,
+                 light,
+                 light_sensor):
         Machine.__init__(
             self,
             states=RoboticArm.states,
@@ -43,6 +45,8 @@ class RoboticArm(Machine):
 
         self.motion = motion_impl
         self.display = display_service
+        self.light = light
+        self.light_sensor = light_sensor
 
         self.logger = logging.getLogger(__name__)
 
