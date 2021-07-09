@@ -26,7 +26,7 @@ class PhysicalModel(ERobot):
                 @ self.links[3].A(self.q[2])
                 @ self.links[4].A(self.q[3])
                 @ self.links[5].A(self.q[4])
-                ) @ np.append(cpos, [dis, 1])
+                ).data[0] @ np.append(cpos, [dis, 1])
 
     def _move(self, cdata):
         vec = get_diff_vector_from_center(cdata)
