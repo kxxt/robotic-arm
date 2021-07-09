@@ -1,8 +1,7 @@
 from colour import Color
-import pigpio
 
 from robotic_arm.config import LIGHT_PIN
-from robotic_arm.gpio import pi
+from robotic_arm.gpio import pi, pigpio
 
 
 class Light:
@@ -17,4 +16,4 @@ class Light:
         pi.write(self.pin, 1)
 
     def off(self):
-        pi.write(self.pin, 1)
+        pi.write(self.pin, 0)

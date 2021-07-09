@@ -1,8 +1,6 @@
 from robotic_arm.input.sensors.base import SensorBase
-from robotic_arm.gpio import pi
+from robotic_arm.gpio import pi, pigpio
 from robotic_arm.config import LIGHTNESS_SENSOR_PIN
-
-import pigpio
 
 
 class LightSensor(SensorBase):
