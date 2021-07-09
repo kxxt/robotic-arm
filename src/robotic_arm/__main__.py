@@ -16,7 +16,11 @@ disp = load_display_service()
 register_voice_output_callback(lambda x: disp.println(x))
 
 logger.info("Loading GPIO services...")
-from robotic_arm.gpio import pi
+from robotic_arm.input import LightSensor
+from robotic_arm.output import Light
+
+light = Light()
+light_sensor = LightSensor()
 logger.info("GPIO services loaded!")
 
 from robotic_arm import RoboticArm
@@ -41,5 +45,5 @@ face_service.run()
 hands_service.run()
 voice_service.run()
 
-arm = RoboticArm(face_service, voice_service, hands_service, vc, motion, disp)
+arm = RoboticArm(face_service, voice_service, hands_service, vc, motion, disp, light, light_sensor)
 arm.run()
