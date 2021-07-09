@@ -13,6 +13,8 @@ from robotic_arm.output import VoiceCompositionBase
 import logging
 import threading
 
+import numpy as np
+
 video_capture: Union[VideoCapture, None] = None
 video_ready: threading.Event = threading.Event()
 
@@ -78,7 +80,13 @@ def get_frame(fx=0.25, fy=0.25):
     :return: resized frame
     """
     wait_until_video_ready()
-    success, image = video_capture.read()
+    while True:
+        try:
+            success, image = video_capture.read()
+            break
+        except:
+            logger.warning("Failed to read from video capture! Retrying...")
     if not success:
         return None
-    return cv2.cvtColor(cv2.resize(image, (0, 0), fx, fy), cv2.COLOR_BGR2RGB)
+    return cv2.cvtColor(cv2.resize(image, (int(fx * np.size(image, 0)), int(fy * np.size(image, 1)))),
+                        cv2.COLOR_BGR2RGB)
