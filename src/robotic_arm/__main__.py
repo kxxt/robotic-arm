@@ -26,8 +26,10 @@ logger.info("GPIO services loaded!")
 from robotic_arm import RoboticArm
 from robotic_arm.recognition import *
 from robotic_arm.motion import Motion
+from robotic_arm.motion.physics import PhysicalModel
 
 motion = Motion()
+motion.physics = PhysicalModel()
 
 # WORK-AROUND FOR SIMULATION
 # 因为模拟在运行时会把当前目录切到磁盘根目录
