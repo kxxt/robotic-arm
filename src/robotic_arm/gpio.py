@@ -1,5 +1,7 @@
 try:
     import pigpio
+
+    pi = pigpio.pi()
 except ImportError:
     import logging
 
@@ -17,4 +19,4 @@ except ImportError:
 
 
     pigpio = FakeGPIO()
-pi = pigpio.pi()
+    pi = FakeGPIO()
