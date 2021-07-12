@@ -1,1 +1,1 @@
-from robotic_arm.input.sensors.light import LightSensor
+from robotic_arm.input.sensors.light_camera import LightSensor
