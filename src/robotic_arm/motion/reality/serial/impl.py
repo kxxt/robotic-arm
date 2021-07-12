@@ -16,14 +16,12 @@ class SerialServos(MotionBase):
                               cmd=lib.servo_commands["write"])
         self._read = partial(lib.servo_read,
                              handle=self.handle)
-        self.range = ran or (0, 1000)
-
-    def load(self):
+        self.range = ran or (100, 1000)
         lib.init_servo_board()
 
     def set(self, id, value, time=1000):
         value = inverse_translate(value, self.range)
-        self._write(id=id, par1=value, par2=time)
+        self._write(id=id, par1=int(value), par2=time)
 
     def set_all(self, value, time=1000):
         raise NotImplementedError()
