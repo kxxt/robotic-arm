@@ -5,8 +5,8 @@ import logging
 from math import pi
 
 # Basic profile data
-NAME = '小亮'
-NAMES = {NAME, "销量", "晓亮", "小量", "小了"}
+NAME = '小靓'
+NAMES = {NAME, "销量", "晓亮", "小量", "小了", "小亮"}
 
 # Physic configurations
 URDF_PATH = "Robot1.SLDASM/urdf/Robot1.SLDASM.urdf"
@@ -22,7 +22,7 @@ SERVO_BOARD_PORTS = (17, 27)
 DIGITAL_SERVO_PIN = 12
 
 # Electronic configurations
-LIGHT_PIN = environ.get('LIGHT_PIN') or 7
+LIGHT_PIN = environ.get('LIGHT_PIN') or 10
 LIGHTNESS_SENSOR_PIN = environ.get('LIGHTNESS_SENSOR_PIN') or 23
 
 # Application configurations
@@ -50,8 +50,8 @@ FACE_RECOGNITION_SOLUTION = environ.get('FACE_RECOGNITION_SOLUTION') or "mediapi
 MEDIAPIPE_FACE_DETECTION_MIN_CONFIDENCE = environ.get('MEDIAPIPE_FACE_DETECTION_MIN_CONFIDENCE') or 0.75
 
 # hand tracking configurations
-HANDS_MIN_DETECTION_CONFIDENCE = environ.get('HANDS_MIN_DETECTION_CONFIDENCE') or 0.6
-HANDS_MIN_TRACKING_CONFIDENCE = environ.get('HANDS_MIN_TRACKING_CONFIDENCE') or 0.6
+HANDS_MIN_DETECTION_CONFIDENCE = environ.get('HANDS_MIN_DETECTION_CONFIDENCE') or 0.3
+HANDS_MIN_TRACKING_CONFIDENCE = environ.get('HANDS_MIN_TRACKING_CONFIDENCE') or 0.3
 
 # Voice recognition configurations
 VOICE_RECOGNITION_MODEL_PATH = environ.get('VOICE_RECOGNITION_MODEL_PATH') \
