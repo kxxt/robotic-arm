@@ -10,6 +10,7 @@ class Light:
         self.thread = threading.Thread(target=self.working, daemon=True)
         self.flicker = threading.Event()
         pi.set_mode(self.pin, pigpio.OUTPUT)
+        self.thread.start()
 
     def start_flicker(self):
         self.flicker.set()
@@ -22,8 +23,9 @@ class Light:
             self.flicker.wait()
             while self.flicker.is_set():
                 self.on()
-                sleep(0.5)
+                sleep(0.2)
                 self.off()
+                sleep(0.2)
 
     def switch(self, state: bool):
         pi.write(self.pin, state)
