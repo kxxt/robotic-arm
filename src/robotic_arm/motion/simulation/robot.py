@@ -34,9 +34,10 @@ class SimulatedMotion(MotionBase):
             self.backend.step(0.05)
 
     def set(self, servo_id, value, time=50):
-        self.physics.q[servo_id] = value
+        self.physics.q[servo_id-1] = value
         self.backend.step(time / 1000)
 
     def set_all(self, value, time=50):
-        self.physics.q = value
+        for i in range(len(value)):
+            self.physics.q[i]=value[i]
         self.backend.step(50 / 1000)
