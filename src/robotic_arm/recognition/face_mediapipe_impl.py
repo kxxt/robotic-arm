@@ -48,12 +48,12 @@ class FaceRecognitionService(ImageRecognitionService):
         return results
 
     def real_work(self):
-        result = self.recognize(get_raw_frame())
+        result = self.recognize(get_frame())
         if result is not None and result.detections is not None:
             self.output_queue.put(result.detections)
 
     def recognize_sync(self):
-        result = self.recognize(get_raw_frame())
+        result = self.recognize(get_frame())
         if result is not None and result.detections is not None:
             return result.detections
         return None
